@@ -1,0 +1,10 @@
+[2025-07-13 12:01:39,616] [INFO] __main__: ================================================================================
+[2025-07-13 12:01:39,616] [INFO] __main__: CENTRALIZED TRAINING FOR DO-TP MODEL
+[2025-07-13 12:01:39,616] [INFO] __main__: ================================================================================
+[2025-07-13 12:01:39,616] [INFO] __main__: Experiment: centralized_training_20250713_120138
+[2025-07-13 12:01:39,616] [INFO] __main__: Training datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-13 12:01:39,616] [INFO] __main__: Validation dataset: zara1
+[2025-07-13 12:01:39,616] [INFO] __main__: Output directory: ./results/experiment_20250713_120138/centralized
+[2025-07-13 12:01:39,616] [INFO] __main__: Setting up data manager...
+[2025-07-13 12:01:39,616] [INFO] core.data_manager: All required datasets are available
+[2025-07-13 12:01:39,616] [ERROR] __main__: Training failed with error: 'ExperimentConfig' object has no attribute 'obs_len'

@@ -1,0 +1,38 @@
+CENTRALIZED VS FEDERATED TRAINING COMPARISON SUMMARY
+============================================================
+
+Experiment Date: 2025-07-13 12:37:39
+Centralized Model: ./src/results/experiment_20250713_122542/centralized/do_tp_centralized_best.pt
+Federated Model: ./src/do_tp_federated_federated_final.pt
+Test Datasets: eth, hotel, zara1, zara2, univ
+
+
+Dataset: ETH
+------------------------------
+ Centralized: ADE=2.4797, FDE=4.5078, Loss=0.0353
+   Federated: ADE=2.4722, FDE=4.4921, Loss=0.0389
+
+Dataset: HOTEL
+------------------------------
+ Centralized: ADE=1.0113, FDE=1.9660, Loss=0.0056
+   Federated: ADE=1.0291, FDE=1.9929, Loss=0.0077
+
+Dataset: ZARA1
+------------------------------
+ Centralized: ADE=2.1581, FDE=4.2934, Loss=0.0067
+   Federated: ADE=2.1540, FDE=4.2893, Loss=0.0065
+
+Dataset: ZARA2
+------------------------------
+ Centralized: ADE=1.1880, FDE=2.3596, Loss=0.0063
+   Federated: ADE=1.1877, FDE=2.3592, Loss=0.0062
+
+Dataset: UNIV
+------------------------------
+ Centralized: ADE=1.1845, FDE=2.3206, Loss=0.0099
+   Federated: ADE=1.1852, FDE=2.3237, Loss=0.0103
+
+OVERALL AVERAGES
+------------------------------
+ Centralized: ADE=1.6043, FDE=3.0895, Loss=0.0128
+   Federated: ADE=1.6056, FDE=3.0915, Loss=0.0139

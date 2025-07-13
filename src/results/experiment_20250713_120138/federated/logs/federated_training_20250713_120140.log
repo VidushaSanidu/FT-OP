@@ -1,0 +1,14 @@
+[2025-07-13 12:01:40,519] [INFO] __main__: ================================================================================
+[2025-07-13 12:01:40,519] [INFO] __main__: FEDERATED TRAINING FOR DO-TP MODEL
+[2025-07-13 12:01:40,519] [INFO] __main__: ================================================================================
+[2025-07-13 12:01:40,519] [INFO] __main__: Experiment: federated_training_20250713_120138
+[2025-07-13 12:01:40,519] [INFO] __main__: Client datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-13 12:01:40,519] [INFO] __main__: Validation dataset: zara1
+[2025-07-13 12:01:40,519] [INFO] __main__: Global rounds: 3
+[2025-07-13 12:01:40,519] [INFO] __main__: Local epochs: 7
+[2025-07-13 12:01:40,519] [INFO] __main__: Clients per round: 5
+[2025-07-13 12:01:40,519] [INFO] __main__: Aggregation method: weighted_avg
+[2025-07-13 12:01:40,519] [INFO] __main__: Output directory: ./results/experiment_20250713_120138/federated
+[2025-07-13 12:01:40,519] [INFO] __main__: Setting up data manager...
+[2025-07-13 12:01:40,519] [INFO] core.data_manager: All required datasets are available
+[2025-07-13 12:01:40,519] [ERROR] __main__: Federated training failed with error: 'ExperimentConfig' object has no attribute 'obs_len'

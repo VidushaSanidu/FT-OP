@@ -1,0 +1,128 @@
+{
+  "comparison_results": {
+    "Centralized": {
+      "eth": {
+        "loss": 0.03529971965604065,
+        "ade": 2.4796825140220684,
+        "fde": 4.5078258277302945
+      },
+      "hotel": {
+        "loss": 0.005590426740444425,
+        "ade": 1.0112951430160435,
+        "fde": 1.966003859937474
+      },
+      "zara1": {
+        "loss": 0.006697177950208498,
+        "ade": 2.158148619422794,
+        "fde": 4.293420375742703
+      },
+      "zara2": {
+        "loss": 0.006301056483807417,
+        "ade": 1.1879590166876048,
+        "fde": 2.3596290073038353
+      },
+      "univ": {
+        "loss": 0.00990744549098303,
+        "ade": 1.1845031891851268,
+        "fde": 2.320572656858934
+      }
+    },
+    "Federated": {
+      "eth": {
+        "loss": 0.03890793506591195,
+        "ade": 2.472215330403154,
+        "fde": 4.492052765840984
+      },
+      "hotel": {
+        "loss": 0.0076601000052522105,
+        "ade": 1.029129346664588,
+        "fde": 1.9929343304629565
+      },
+      "zara1": {
+        "loss": 0.006511282600103632,
+        "ade": 2.1540190183052843,
+        "fde": 4.289330618782568
+      },
+      "zara2": {
+        "loss": 0.0062204612960750595,
+        "ade": 1.1876577716247307,
+        "fde": 2.359248985746355
+      },
+      "univ": {
+        "loss": 0.010304183201724897,
+        "ade": 1.1851605932038665,
+        "fde": 2.3237348260959467
+      }
+    }
+  },
+  "centralized_metrics": null,
+  "federated_metrics": null,
+  "model_paths": {
+    "Centralized": "./src/results/experiment_20250713_122542/centralized/do_tp_centralized_best.pt",
+    "Federated": "./src/do_tp_federated_federated_final.pt"
+  },
+  "test_datasets": [
+    "eth",
+    "hotel",
+    "zara1",
+    "zara2",
+    "univ"
+  ],
+  "experiment_info": {
+    "date": "2025-07-13T12:37:39.916895",
+    "config": {
+      "model": {
+        "obs_len": 8,
+        "pred_len": 12,
+        "input_dim": 2,
+        "enc_hidden_dim": 32,
+        "dest_dim": 32,
+        "kl_beta": 0.1
+      },
+      "data": {
+        "delim": "\t",
+        "skip": 1,
+        "loader_num_workers": 4,
+        "batch_size": 64,
+        "available_datasets": [
+          "eth",
+          "hotel",
+          "zara1",
+          "zara2",
+          "univ"
+        ]
+      },
+      "training": {
+        "num_epochs": 100,
+        "learning_rate": 0.001,
+        "print_every": 50,
+        "use_gpu": true,
+        "gpu_num": "0",
+        "early_stopping_patience": 20,
+        "min_delta": 0.0001
+      },
+      "federated": {
+        "global_rounds": 5,
+        "local_epochs": 7,
+        "clients_per_round": 5,
+        "aggregation_method": "weighted_avg"
+      },
+      "output": {
+        "output_dir": "./results/experiment_20250713_122542/comparison",
+        "checkpoint_name": "do_tp_checkpoint",
+        "save_plots": true,
+        "save_logs": true,
+        "log_level": "INFO"
+      },
+      "experiment_name": "centralized_vs_federated",
+      "validation_dataset": "zara1",
+      "train_datasets": [
+        "eth",
+        "hotel",
+        "zara1",
+        "zara2",
+        "univ"
+      ]
+    }
+  }
+}
