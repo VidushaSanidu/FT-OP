@@ -48,7 +48,7 @@ class FederatedConfig:
 @dataclass
 class OutputConfig:
     """Configuration for output and logging."""
-    output_dir: str = field(default_factory=lambda: os.getcwd())
+    output_dir: str = field(default_factory=lambda: os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "results"))
     checkpoint_name: str = "do_tp_checkpoint"
     save_plots: bool = True
     save_logs: bool = True
@@ -109,6 +109,10 @@ def get_centralized_config() -> ExperimentConfig:
     config.experiment_name = "centralized_training"
     config.training.num_epochs = 200
     config.data.batch_size = 64
+    # Set proper results directory for centralized training
+    results_base = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "results")
+    config.output.output_dir = os.path.join(results_base, "centralized")
+    config.output.checkpoint_name = "do_tp_centralized"
     return config
 
 def get_federated_config() -> ExperimentConfig:
@@ -118,6 +122,10 @@ def get_federated_config() -> ExperimentConfig:
     config.federated.global_rounds = 10
     config.federated.local_epochs = 7
     config.data.batch_size = 32
+    # Set proper results directory for federated training
+    results_base = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "results")
+    config.output.output_dir = os.path.join(results_base, "federated")
+    config.output.checkpoint_name = "do_tp_federated"
     return config
 
 def get_comparison_config() -> ExperimentConfig:

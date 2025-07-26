@@ -8,6 +8,7 @@ import sys
 import argparse
 import logging
 import json
+import torch
 from datetime import datetime
 
 # Add src directory to path
@@ -18,14 +19,52 @@ from core.data_manager import create_data_manager
 from core.training import create_centralized_trainer
 from core.evaluation import create_evaluator
 
+def cleanup_old_files():
+    """Clean up scattered files from previous runs."""
+    src_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    # Remove any .pt files in src directory
+    for file in os.listdir(src_dir):
+        if file.endswith('.pt') or file.endswith('_config.json') or file.endswith('_metrics.json'):
+            file_path = os.path.join(src_dir, file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+                print(f"Cleaned up: {file_path}")
+    
+    # Remove logs directory from src if it exists
+    logs_dir = os.path.join(src_dir, 'logs')
+    if os.path.exists(logs_dir):
+        import shutil
+        shutil.rmtree(logs_dir)
+        print(f"Cleaned up: {logs_dir}")
+
+def setup_experiment_directory(config):
+    """Set up the experiment directory structure."""
+    output_dir = config.output.output_dir
+    
+    # Create main output directory
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Create subdirectories for organization
+    subdirs = ['logs', 'models', 'plots', 'configs']
+    for subdir in subdirs:
+        os.makedirs(os.path.join(output_dir, subdir), exist_ok=True)
+    
+    # Update config paths to use the organized structure
+    config.logs_dir = os.path.join(output_dir, 'logs')
+    config.models_dir = os.path.join(output_dir, 'models')
+    config.plots_dir = os.path.join(output_dir, 'plots')
+    config.configs_dir = os.path.join(output_dir, 'configs')
+    
+    return config
+
 def setup_logging(config):
     """Setup logging configuration."""
     log_format = '[%(asctime)s] [%(levelname)s] %(name)s: %(message)s'
     log_level = getattr(logging, config.output.log_level.upper())
     
-    # Create logs directory
-    logs_dir = os.path.join(config.output.output_dir, 'logs')
-    os.makedirs(logs_dir, exist_ok=True)
+    # Use the organized logs directory
+    logs_dir = getattr(config, 'logs_dir', os.path.join(config.output.output_dir, 'logs'))
     
     # Setup file and console logging
     logging.basicConfig(
@@ -78,6 +117,10 @@ def parse_arguments():
     parser.add_argument('--gpu_num', default='0',
                        help='GPU number to use')
     
+    # Utility arguments
+    parser.add_argument('--cleanup', action='store_true', default=False,
+                       help='Clean up scattered files from previous runs before starting')
+    
     return parser.parse_args()
 
 def create_config_from_args(args):
@@ -106,6 +149,10 @@ def create_config_from_args(args):
     # Output config - only update if args.output_dir is not empty
     if args.output_dir and args.output_dir.strip():
         config.output.output_dir = args.output_dir
+    else:
+        # Ensure we have a proper timestamp subdirectory for this run
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        config.output.output_dir = os.path.join(config.output.output_dir, timestamp)
     config.output.checkpoint_name = args.checkpoint_name
     
     return config
@@ -114,7 +161,17 @@ def main():
     """Main training function."""
     # Parse arguments and create config
     args = parse_arguments()
+    
+    # Clean up old files if requested
+    if args.cleanup:
+        print("Cleaning up scattered files from previous runs...")
+        cleanup_old_files()
+        print("Cleanup completed.")
+    
     config = create_config_from_args(args)
+    
+    # Setup organized directory structure
+    config = setup_experiment_directory(config)
     
     # Setup logging
     setup_logging(config)
@@ -139,12 +196,9 @@ def main():
         logger.error("Output directory is empty or invalid")
         raise ValueError("Output directory must be specified and non-empty")
     
-    # Create output directory
-    os.makedirs(config.output.output_dir, exist_ok=True)
-    
     try:
-        # Save configuration
-        config_path = os.path.join(config.output.output_dir, f'{config.experiment_name}_config.json')
+        # Save configuration to organized configs directory
+        config_path = os.path.join(getattr(config, 'configs_dir', config.output.output_dir), f'{config.experiment_name}_config.json')
         config_dict = config.to_dict() if hasattr(config, 'to_dict') else vars(config)
         with open(config_path, 'w') as f:
             json.dump(config_dict, f, indent=2, default=str)
@@ -156,13 +210,15 @@ def main():
         
         # Load training data (combine all training datasets)
         logger.info("Loading training data...")
-        train_data = data_manager.load_combined_training_data(config.train_datasets)
-        logger.info(f"Training data loaded: {len(train_data)} samples")
+        train_datasets, train_loader = data_manager.get_centralized_train_loader()
+        # Get the combined dataset from the loader
+        combined_train_dataset = train_loader.dataset
+        logger.info(f"Training data loaded: {len(combined_train_dataset)} samples")
         
         # Load validation data
         logger.info("Loading validation data...")
-        val_data = data_manager.load_validation_data(config.validation_dataset)
-        logger.info(f"Validation data loaded: {len(val_data)} samples")
+        val_dataset, val_loader = data_manager.get_validation_loader()
+        logger.info(f"Validation data loaded: {len(val_dataset)} samples")
         
         # Create trainer
         logger.info("Creating centralized trainer...")
@@ -174,31 +230,24 @@ def main():
         
         # Train the model
         logger.info("Starting training...")
-        training_metrics = trainer.train(
-            train_data=train_data,
-            val_data=val_data,
+        training_metrics_dict = trainer.train(
+            train_data=combined_train_dataset,
+            val_data=val_dataset,
             evaluator=evaluator
         )
         
         logger.info("Training completed successfully!")
         
-        # Save training metrics
-        metrics_path = os.path.join(config.output.output_dir, f'{config.experiment_name}_metrics.json')
+        # Save training metrics to organized directory
+        metrics_path = os.path.join(getattr(config, 'configs_dir', config.output.output_dir), f'{config.experiment_name}_metrics.json')
         with open(metrics_path, 'w') as f:
-            json.dump(training_metrics, f, indent=2, default=str)
+            json.dump(training_metrics_dict, f, indent=2, default=str)
         logger.info(f"Training metrics saved to: {metrics_path}")
         
-        # Final evaluation
-        logger.info("Performing final evaluation...")
-        final_results = evaluator.evaluate_final_model(
-            model=trainer.model,
-            test_data=val_data,
-            save_dir=config.output.output_dir
-        )
-        
-        logger.info("Final Results:")
-        for metric, value in final_results.items():
-            logger.info(f"  {metric}: {value:.4f}")
+        # Save the final model (already saved by trainer, but let's log the organized path)
+        models_dir = getattr(config, 'models_dir', config.output.output_dir)
+        final_model_path = os.path.join(models_dir, f'{config.output.checkpoint_name}_final.pt')
+        logger.info(f"Final model saved to: {final_model_path}")
         
         logger.info("=" * 50)
         logger.info("Centralized training completed successfully!")

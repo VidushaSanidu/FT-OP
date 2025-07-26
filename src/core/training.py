@@ -2,6 +2,7 @@
 Core training module with reusable training and evaluation functions.
 """
 
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -45,6 +46,7 @@ class TrainingMetrics:
         self.total_losses = []
         self.traj_losses = []
         self.kl_losses = []
+        self.train_losses = []  # For centralized training compatibility
         self.val_losses = []
         self.val_ades = []
         self.val_fdes = []
@@ -78,6 +80,20 @@ class TrainingMetrics:
             'best_ade': self.val_ades[best_idx],
             'best_fde': self.val_fdes[best_idx],
             'total_training_time': sum(self.training_times)
+        }
+    
+    def to_dict(self) -> Dict[str, any]:
+        """Convert metrics to dictionary for serialization."""
+        return {
+            'total_losses': self.total_losses,
+            'traj_losses': self.traj_losses,
+            'kl_losses': self.kl_losses,
+            'train_losses': self.train_losses,
+            'val_losses': self.val_losses,
+            'val_ades': self.val_ades,
+            'val_fdes': self.val_fdes,
+            'training_times': self.training_times,
+            'best_metrics': self.get_best_metrics()
         }
 
 def get_device(use_gpu: bool = True, gpu_num: str = "0") -> torch.device:
@@ -290,19 +306,24 @@ class CentralizedTrainer:
         """Train the model with centralized learning."""
         logger.info("Starting centralized training...")
         
+        # Import collate function
+        from data.trajectories import seq_collate
+        
         # Create data loaders
         train_loader = DataLoader(
             train_data, 
             batch_size=self.config.data.batch_size,
             shuffle=True,
-            num_workers=self.config.data.loader_num_workers
+            num_workers=self.config.data.loader_num_workers,
+            collate_fn=seq_collate
         )
         
         val_loader = DataLoader(
             val_data,
             batch_size=self.config.data.batch_size,
             shuffle=False,
-            num_workers=self.config.data.loader_num_workers
+            num_workers=self.config.data.loader_num_workers,
+            collate_fn=seq_collate
         )
         
         # Training loop
@@ -317,13 +338,17 @@ class CentralizedTrainer:
             total_loss = 0.0
             
             for batch_idx, batch in enumerate(train_loader):
-                # Move batch to device
-                obs_traj = batch['obs_traj'].to(self.device)
-                pred_traj_gt = batch['pred_traj_gt'].to(self.device)
+                # Move batch to device and unpack
+                batch = [tensor.to(self.device) for tensor in batch]
+                (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, 
+                 non_linear_ped, loss_mask, seq_start_end) = batch
                 
                 # Forward pass
                 self.optimizer.zero_grad()
-                loss = self.model(obs_traj, pred_traj_gt)
+                pred_disp, D_i, D_hat_i = self.model(obs_traj, pred_traj_gt)
+                
+                # Compute loss
+                loss, traj_loss, kl_loss = self.model.compute_loss(pred_disp, pred_traj_gt_rel, D_i, D_hat_i)
                 
                 # Backward pass
                 loss.backward()
@@ -354,7 +379,8 @@ class CentralizedTrainer:
             # Save best model
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
-                best_model_path = f"{self.config.output.output_dir}/{self.config.output.checkpoint_name}_best.pt"
+                models_dir = getattr(self.config, 'models_dir', self.config.output.output_dir)
+                best_model_path = os.path.join(models_dir, f"{self.config.output.checkpoint_name}_best.pt")
                 torch.save(self.model.state_dict(), best_model_path)
                 logger.info(f"Best model saved to {best_model_path}")
             
@@ -364,7 +390,8 @@ class CentralizedTrainer:
                 break
         
         # Save final model
-        final_model_path = f"{self.config.output.output_dir}/{self.config.output.checkpoint_name}_final.pt"
+        models_dir = getattr(self.config, 'models_dir', self.config.output.output_dir)
+        final_model_path = os.path.join(models_dir, f"{self.config.output.checkpoint_name}_final.pt")
         torch.save(self.model.state_dict(), final_model_path)
         logger.info(f"Final model saved to {final_model_path}")
         
@@ -379,15 +406,20 @@ class CentralizedTrainer:
         
         with torch.no_grad():
             for batch in val_loader:
-                obs_traj = batch['obs_traj'].to(self.device)
-                pred_traj_gt = batch['pred_traj_gt'].to(self.device)
+                # Move batch to device and unpack
+                batch = [tensor.to(self.device) for tensor in batch]
+                (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, 
+                 non_linear_ped, loss_mask, seq_start_end) = batch
                 
                 # Forward pass
-                loss = self.model(obs_traj, pred_traj_gt)
+                pred_disp, D_i, D_hat_i = self.model(obs_traj, pred_traj_gt)
+                
+                # Compute loss
+                loss, traj_loss, kl_loss = self.model.compute_loss(pred_disp, pred_traj_gt_rel, D_i, D_hat_i)
                 total_loss += loss.item()
                 
-                # Generate predictions for evaluation
-                pred_traj = self.model.predict(obs_traj)
+                # Calculate prediction trajectory from displacement
+                pred_traj = obs_traj[:, -1:, :] + torch.cumsum(pred_disp, dim=1)
                 
                 # Calculate ADE and FDE
                 ade = torch.mean(torch.norm(pred_traj - pred_traj_gt, dim=-1)).item()

@@ -6,10 +6,10 @@
 echo "Starting Centralized Training for DO-TP Model"
 echo "============================================"
 
-# Default parameters
+# Parameters
 TRAIN_DATASETS="eth hotel zara1 zara2 univ"
 VALIDATION_DATASET="zara1"
-NUM_EPOCHS=100
+NUM_EPOCHS=50
 BATCH_SIZE=32
 LEARNING_RATE=0.001
 OUTPUT_DIR="./results/centralized"
