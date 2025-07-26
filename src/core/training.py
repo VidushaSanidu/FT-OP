@@ -336,6 +336,8 @@ class CentralizedTrainer:
             # Training phase
             self.model.train()
             total_loss = 0.0
+            total_traj_loss = 0.0
+            total_kl_loss = 0.0
             
             for batch_idx, batch in enumerate(train_loader):
                 # Move batch to device and unpack
@@ -355,12 +357,21 @@ class CentralizedTrainer:
                 self.optimizer.step()
                 
                 total_loss += loss.item()
+                total_traj_loss += traj_loss.item()
+                total_kl_loss += kl_loss.item()
                 
                 if batch_idx % self.config.training.print_every == 0:
                     logger.debug(f"Batch [{batch_idx}/{len(train_loader)}] Loss: {loss.item():.4f}")
             
             avg_train_loss = total_loss / len(train_loader)
+            avg_traj_loss = total_traj_loss / len(train_loader)
+            avg_kl_loss = total_kl_loss / len(train_loader)
+            
+            # Store all loss components
             metrics.train_losses.append(avg_train_loss)
+            metrics.total_losses.append(avg_train_loss)  # Same as train_losses for centralized
+            metrics.traj_losses.append(avg_traj_loss)
+            metrics.kl_losses.append(avg_kl_loss)
             
             # Validation phase
             val_loss, val_ade, val_fde = self._validate(val_loader)

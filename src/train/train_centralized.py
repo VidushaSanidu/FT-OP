@@ -8,7 +8,6 @@ import sys
 import argparse
 import logging
 import json
-import torch
 from datetime import datetime
 
 # Add src directory to path
@@ -243,6 +242,32 @@ def main():
         with open(metrics_path, 'w') as f:
             json.dump(training_metrics_dict, f, indent=2, default=str)
         logger.info(f"Training metrics saved to: {metrics_path}")
+        
+        # Create training plots
+        logger.info("Creating training plots...")
+        plots_dir = getattr(config, 'plots_dir', config.output.output_dir)
+        try:
+            # Reconstruct TrainingMetrics object from dictionary for plotting
+            from core.training import TrainingMetrics
+            metrics_obj = TrainingMetrics()
+            
+            # Populate the metrics object with data from the dictionary
+            metrics_obj.train_losses = training_metrics_dict.get('train_losses', [])
+            metrics_obj.total_losses = training_metrics_dict.get('total_losses', [])
+            metrics_obj.traj_losses = training_metrics_dict.get('traj_losses', [])
+            metrics_obj.kl_losses = training_metrics_dict.get('kl_losses', [])
+            metrics_obj.val_losses = training_metrics_dict.get('val_losses', [])
+            metrics_obj.val_ades = training_metrics_dict.get('val_ades', [])
+            metrics_obj.val_fdes = training_metrics_dict.get('val_fdes', [])
+            
+            evaluator.create_training_plots(
+                metrics=metrics_obj,
+                experiment_name=config.experiment_name,
+                save_dir=plots_dir
+            )
+            logger.info(f"Training plots saved to: {plots_dir}")
+        except Exception as e:
+            logger.warning(f"Could not create training plots: {str(e)}")
         
         # Save the final model (already saved by trainer, but let's log the organized path)
         models_dir = getattr(config, 'models_dir', config.output.output_dir)
