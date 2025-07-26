@@ -85,7 +85,7 @@ SCRIPT_DIR="$(dirname "$0")"
 
 echo "Step 1/3: Running Centralized Training"
 echo "======================================"
-"$SCRIPT_DIR/run_centralized.sh" \
+"$SCRIPT_DIR/4.1.run_centralized.sh" \
     --train_datasets "$TRAIN_DATASETS" \
     --validation_dataset "$VALIDATION_DATASET" \
     --num_epochs "$CENTRALIZED_EPOCHS" \
@@ -100,7 +100,7 @@ fi
 echo ""
 echo "Step 2/3: Running Federated Training"
 echo "===================================="
-"$SCRIPT_DIR/run_federated.sh" \
+"$SCRIPT_DIR/4.2.run_federated.sh" \
     --client_datasets "$TRAIN_DATASETS" \
     --validation_dataset "$VALIDATION_DATASET" \
     --global_rounds "$FEDERATED_ROUNDS" \

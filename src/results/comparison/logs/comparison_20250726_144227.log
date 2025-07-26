@@ -1,0 +1,60 @@
+[2025-07-26 14:42:27,499] [INFO] __main__: ================================================================================
+[2025-07-26 14:42:27,499] [INFO] __main__: CENTRALIZED VS FEDERATED TRAINING COMPARISON
+[2025-07-26 14:42:27,499] [INFO] __main__: ================================================================================
+[2025-07-26 14:42:27,499] [INFO] __main__: Experiment: centralized_vs_federated
+[2025-07-26 14:42:27,499] [INFO] __main__: Centralized model: ../src/results/centralized/do_tp_centralized_best.pt
+[2025-07-26 14:42:27,499] [INFO] __main__: Federated model: ../src/do_tp_federated_federated_final.pt
+[2025-07-26 14:42:27,499] [INFO] __main__: Test datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-26 14:42:27,499] [INFO] __main__: Output directory: ./results/comparison
+[2025-07-26 14:42:27,499] [INFO] __main__: Setting up data manager...
+[2025-07-26 14:42:27,499] [INFO] core.data_manager: All required datasets are available
+[2025-07-26 14:42:27,499] [INFO] __main__: Creating test data loaders...
+[2025-07-26 14:42:27,499] [INFO] core.data_manager: Preparing test data from dataset: eth
+[2025-07-26 14:42:27,746] [INFO] core.data_manager: Loaded eth test dataset with 70 samples
+[2025-07-26 14:42:27,746] [INFO] __main__: Test dataset eth: 70 samples
+[2025-07-26 14:42:27,746] [INFO] core.data_manager: Preparing test data from dataset: hotel
+[2025-07-26 14:42:28,088] [INFO] core.data_manager: Loaded hotel test dataset with 301 samples
+[2025-07-26 14:42:28,088] [INFO] __main__: Test dataset hotel: 301 samples
+[2025-07-26 14:42:28,088] [INFO] core.data_manager: Preparing test data from dataset: zara1
+[2025-07-26 14:42:28,344] [INFO] core.data_manager: Loaded zara1 test dataset with 602 samples
+[2025-07-26 14:42:28,344] [INFO] __main__: Test dataset zara1: 602 samples
+[2025-07-26 14:42:28,344] [INFO] core.data_manager: Preparing test data from dataset: zara2
+[2025-07-26 14:42:28,865] [INFO] core.data_manager: Loaded zara2 test dataset with 921 samples
+[2025-07-26 14:42:28,865] [INFO] __main__: Test dataset zara2: 921 samples
+[2025-07-26 14:42:28,865] [INFO] core.data_manager: Preparing test data from dataset: univ
+[2025-07-26 14:42:30,479] [INFO] core.data_manager: Loaded univ test dataset with 947 samples
+[2025-07-26 14:42:30,479] [INFO] __main__: Test dataset univ: 947 samples
+[2025-07-26 14:42:30,479] [INFO] __main__: Creating evaluator...
+[2025-07-26 14:42:30,479] [INFO] __main__: Evaluating models...
+[2025-07-26 14:42:30,492] [INFO] core.training: Model loaded from ../src/results/centralized/do_tp_centralized_best.pt
+[2025-07-26 14:42:30,492] [INFO] core.evaluation: Evaluating Centralized on test datasets...
+[2025-07-26 14:42:31,947] [INFO] core.evaluation: Centralized on eth: Loss=0.0264, ADE=2.4895, FDE=4.5381
+[2025-07-26 14:42:33,172] [INFO] core.evaluation: Centralized on hotel: Loss=0.0053, ADE=1.0115, FDE=1.9577
+[2025-07-26 14:42:34,426] [INFO] core.evaluation: Centralized on zara1: Loss=0.0070, ADE=2.1656, FDE=4.2977
+[2025-07-26 14:42:35,788] [INFO] core.evaluation: Centralized on zara2: Loss=0.0065, ADE=1.1946, FDE=2.3657
+[2025-07-26 14:42:37,397] [INFO] core.evaluation: Centralized on univ: Loss=0.0095, ADE=1.1853, FDE=2.3207
+[2025-07-26 14:42:37,401] [INFO] core.training: Model loaded from ../src/do_tp_federated_federated_final.pt
+[2025-07-26 14:42:37,401] [INFO] core.evaluation: Evaluating Federated on test datasets...
+[2025-07-26 14:42:38,573] [INFO] core.evaluation: Federated on eth: Loss=0.0303, ADE=2.4760, FDE=4.5032
+[2025-07-26 14:42:39,785] [INFO] core.evaluation: Federated on hotel: Loss=0.0054, ADE=1.0147, FDE=1.9694
+[2025-07-26 14:42:41,031] [INFO] core.evaluation: Federated on zara1: Loss=0.0065, ADE=2.1565, FDE=4.2851
+[2025-07-26 14:42:42,371] [INFO] core.evaluation: Federated on zara2: Loss=0.0062, ADE=1.1880, FDE=2.3583
+[2025-07-26 14:42:43,970] [INFO] core.evaluation: Federated on univ: Loss=0.0097, ADE=1.1847, FDE=2.3200
+[2025-07-26 14:42:43,971] [INFO] __main__: 
+================================================================================
+[2025-07-26 14:42:43,971] [INFO] __main__: TRAINING EFFICIENCY ANALYSIS
+[2025-07-26 14:42:43,971] [INFO] __main__: ================================================================================
+[2025-07-26 14:42:43,971] [INFO] __main__: Centralized Training:
+[2025-07-26 14:42:43,971] [INFO] __main__:   Best Epoch: 39
+[2025-07-26 14:42:43,971] [INFO] __main__:   Best Val Loss: 0.0088
+[2025-07-26 14:42:43,971] [INFO] __main__:   Best ADE: 1.2689
+[2025-07-26 14:42:43,971] [INFO] __main__:   Best FDE: 2.4869
+[2025-07-26 14:42:43,971] [INFO] __main__:   Total Training Time: 414.23s
+[2025-07-26 14:42:43,971] [INFO] __main__: Creating comparison plots...
+[2025-07-26 14:42:44,203] [INFO] core.evaluation: Saved ade comparison plot
+[2025-07-26 14:42:44,335] [INFO] core.evaluation: Saved fde comparison plot
+[2025-07-26 14:42:44,472] [INFO] core.evaluation: Saved loss comparison plot
+[2025-07-26 14:42:44,759] [INFO] __main__: Performance comparison plot saved
+[2025-07-26 14:42:44,760] [INFO] __main__: Detailed results saved to ./results/comparison/detailed_comparison_results.json
+[2025-07-26 14:42:44,760] [INFO] __main__: Summary report saved to ./results/comparison/comparison_summary.txt
+[2025-07-26 14:42:44,760] [INFO] __main__: Comparison analysis completed successfully!

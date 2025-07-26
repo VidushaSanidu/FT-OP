@@ -7,8 +7,8 @@ echo "Comparing Centralized vs Federated Models"
 echo "========================================"
 
 # Default parameters
-CENTRALIZED_MODEL="./results/centralized/do_tp_centralized_best.pt"
-FEDERATED_MODEL="./results/federated/do_tp_federated_final.pt"
+CENTRALIZED_MODEL="../src/results/centralized/do_tp_centralized_best.pt"
+FEDERATED_MODEL="../src/do_tp_federated_federated_final.pt"
 TEST_DATASETS="eth hotel zara1 zara2 univ"
 VALIDATION_DATASET="zara1"
 OUTPUT_DIR="./results/comparison"
@@ -61,15 +61,31 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Check if model files exist
-if [ ! -f "$CENTRALIZED_MODEL" ]; then
-    echo "Error: Centralized model not found: $CENTRALIZED_MODEL"
+# Check if model files exist (relative to src directory where the script will run)
+SCRIPT_DIR="$(dirname "$0")"
+SRC_DIR="$SCRIPT_DIR/../src"
+
+# Convert paths to be relative to src directory
+if [[ "$CENTRALIZED_MODEL" =~ ^\.\./src/ ]]; then
+    CENTRALIZED_CHECK="${CENTRALIZED_MODEL#../src/}"
+else
+    CENTRALIZED_CHECK="$CENTRALIZED_MODEL"
+fi
+
+if [[ "$FEDERATED_MODEL" =~ ^\.\./src/ ]]; then
+    FEDERATED_CHECK="${FEDERATED_MODEL#../src/}"
+else
+    FEDERATED_CHECK="$FEDERATED_MODEL"
+fi
+
+if [ ! -f "$SRC_DIR/$CENTRALIZED_CHECK" ]; then
+    echo "Error: Centralized model not found: $SRC_DIR/$CENTRALIZED_CHECK"
     echo "Please run centralized training first or specify correct path."
     exit 1
 fi
 
-if [ ! -f "$FEDERATED_MODEL" ]; then
-    echo "Error: Federated model not found: $FEDERATED_MODEL"
+if [ ! -f "$SRC_DIR/$FEDERATED_CHECK" ]; then
+    echo "Error: Federated model not found: $SRC_DIR/$FEDERATED_CHECK"
     echo "Please run federated training first or specify correct path."
     exit 1
 fi
