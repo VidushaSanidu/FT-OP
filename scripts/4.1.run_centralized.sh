@@ -10,7 +10,7 @@ echo "============================================"
 TRAIN_DATASETS="eth hotel zara1 zara2 univ"
 VALIDATION_DATASET="zara1"
 NUM_EPOCHS=100
-BATCH_SIZE=64
+BATCH_SIZE=32
 LEARNING_RATE=0.001
 OUTPUT_DIR="./results/centralized"
 EXPERIMENT_NAME="centralized_training"
@@ -67,6 +67,11 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Convert to absolute path if relative
+if [[ "$OUTPUT_DIR" != /* ]]; then
+    OUTPUT_DIR="$(dirname "$0")/../$OUTPUT_DIR"
+fi
+
 # Create output directory
 mkdir -p "$OUTPUT_DIR"
 
@@ -96,7 +101,7 @@ python train/train_centralized.py \
     --num_epochs "$NUM_EPOCHS" \
     --batch_size "$BATCH_SIZE" \
     --learning_rate "$LEARNING_RATE" \
-    --output_dir "$OUTPUT_DIR" \
+    --output_dir "$(realpath "$OUTPUT_DIR")" \
     --experiment_name "$EXPERIMENT_NAME" \
     --use_gpu
 

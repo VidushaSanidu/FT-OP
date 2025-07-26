@@ -51,6 +51,14 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Set experiment-specific directories
+SCRIPT_DIR="$(dirname "$0")"
+PROJECT_ROOT="$(realpath "$SCRIPT_DIR/..")"
+
+# Convert base output dir to absolute path if relative
+if [[ "$BASE_OUTPUT_DIR" != /* ]]; then
+    BASE_OUTPUT_DIR="$PROJECT_ROOT/$BASE_OUTPUT_DIR"
+fi
+
 CENTRALIZED_DIR="$BASE_OUTPUT_DIR/experiment_$EXPERIMENT_TIMESTAMP/centralized"
 FEDERATED_DIR="$BASE_OUTPUT_DIR/experiment_$EXPERIMENT_TIMESTAMP/federated"
 COMPARISON_DIR="$BASE_OUTPUT_DIR/experiment_$EXPERIMENT_TIMESTAMP/comparison"
@@ -79,9 +87,6 @@ else
 fi
 
 echo ""
-
-# Change to script directory
-SCRIPT_DIR="$(dirname "$0")"
 
 echo "Step 1/3: Running Centralized Training"
 echo "======================================"

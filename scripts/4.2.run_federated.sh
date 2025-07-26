@@ -85,6 +85,11 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# Convert to absolute path if relative
+if [[ "$OUTPUT_DIR" != /* ]]; then
+    OUTPUT_DIR="$(dirname "$0")/../$OUTPUT_DIR"
+fi
+
 # Create output directory
 mkdir -p "$OUTPUT_DIR"
 
@@ -119,7 +124,7 @@ python train/train_federated.py \
     --clients_per_round "$CLIENTS_PER_ROUND" \
     --batch_size "$BATCH_SIZE" \
     --learning_rate "$LEARNING_RATE" \
-    --output_dir "$OUTPUT_DIR" \
+    --output_dir "$(realpath "$OUTPUT_DIR")" \
     --experiment_name "$EXPERIMENT_NAME" \
     --aggregation_method "$AGGREGATION_METHOD" \
     --use_gpu

@@ -90,6 +90,11 @@ if [ ! -f "$SRC_DIR/$FEDERATED_CHECK" ]; then
     exit 1
 fi
 
+# Convert to absolute path if relative
+if [[ "$OUTPUT_DIR" != /* ]]; then
+    OUTPUT_DIR="$(dirname "$0")/../$OUTPUT_DIR"
+fi
+
 # Create output directory
 mkdir -p "$OUTPUT_DIR"
 
@@ -117,7 +122,7 @@ python compare_models.py \
     --federated_model "$FEDERATED_MODEL" \
     --test_datasets $TEST_DATASETS \
     --validation_dataset "$VALIDATION_DATASET" \
-    --output_dir "$OUTPUT_DIR" \
+    --output_dir "$(realpath "$OUTPUT_DIR")" \
     --experiment_name "$EXPERIMENT_NAME" \
     --save_plots \
     --detailed_analysis \

@@ -256,3 +256,153 @@ def save_model(model: nn.Module, save_path: str):
     """Save model to file."""
     torch.save(model.state_dict(), save_path)
     logger.info(f"Model saved to {save_path}")
+
+
+class CentralizedTrainer:
+    """Centralized trainer for DO-TP model."""
+    
+    def __init__(self, config):
+        self.config = config
+        self.device = torch.device('cuda' if torch.cuda.is_available() and config.training.use_gpu else 'cpu')
+        
+        # Initialize model
+        self.model = DO_TP(
+            obs_len=config.model.obs_len,
+            pred_len=config.model.pred_len,
+            input_dim=config.model.input_dim,
+            enc_hidden_dim=config.model.enc_hidden_dim,
+            dest_dim=config.model.dest_dim,
+            kl_beta=config.model.kl_beta
+        ).to(self.device)
+        
+        # Initialize optimizer
+        self.optimizer = optim.Adam(self.model.parameters(), lr=config.training.learning_rate)
+        
+        # Initialize early stopping
+        self.early_stopping = EarlyStopping(
+            patience=config.training.early_stopping_patience,
+            min_delta=config.training.min_delta
+        )
+        
+        logger.info(f"CentralizedTrainer initialized on device: {self.device}")
+    
+    def train(self, train_data, val_data, evaluator=None):
+        """Train the model with centralized learning."""
+        logger.info("Starting centralized training...")
+        
+        # Create data loaders
+        train_loader = DataLoader(
+            train_data, 
+            batch_size=self.config.data.batch_size,
+            shuffle=True,
+            num_workers=self.config.data.loader_num_workers
+        )
+        
+        val_loader = DataLoader(
+            val_data,
+            batch_size=self.config.data.batch_size,
+            shuffle=False,
+            num_workers=self.config.data.loader_num_workers
+        )
+        
+        # Training loop
+        metrics = TrainingMetrics()
+        best_val_loss = float('inf')
+        
+        for epoch in range(self.config.training.num_epochs):
+            start_time = time.time()
+            
+            # Training phase
+            self.model.train()
+            total_loss = 0.0
+            
+            for batch_idx, batch in enumerate(train_loader):
+                # Move batch to device
+                obs_traj = batch['obs_traj'].to(self.device)
+                pred_traj_gt = batch['pred_traj_gt'].to(self.device)
+                
+                # Forward pass
+                self.optimizer.zero_grad()
+                loss = self.model(obs_traj, pred_traj_gt)
+                
+                # Backward pass
+                loss.backward()
+                self.optimizer.step()
+                
+                total_loss += loss.item()
+                
+                if batch_idx % self.config.training.print_every == 0:
+                    logger.debug(f"Batch [{batch_idx}/{len(train_loader)}] Loss: {loss.item():.4f}")
+            
+            avg_train_loss = total_loss / len(train_loader)
+            metrics.train_losses.append(avg_train_loss)
+            
+            # Validation phase
+            val_loss, val_ade, val_fde = self._validate(val_loader)
+            metrics.val_losses.append(val_loss)
+            metrics.val_ades.append(val_ade)
+            metrics.val_fdes.append(val_fde)
+            
+            epoch_time = time.time() - start_time
+            
+            logger.info(
+                f'Epoch [{epoch+1}/{self.config.training.num_epochs}] '
+                f'Train Loss: {avg_train_loss:.4f}, Val Loss: {val_loss:.4f}, '
+                f'ADE: {val_ade:.4f}, FDE: {val_fde:.4f}, Time: {epoch_time:.2f}s'
+            )
+            
+            # Save best model
+            if val_loss < best_val_loss:
+                best_val_loss = val_loss
+                best_model_path = f"{self.config.output.output_dir}/{self.config.output.checkpoint_name}_best.pt"
+                torch.save(self.model.state_dict(), best_model_path)
+                logger.info(f"Best model saved to {best_model_path}")
+            
+            # Early stopping check
+            if self.early_stopping(val_loss):
+                logger.info(f"Early stopping triggered at epoch {epoch + 1}")
+                break
+        
+        # Save final model
+        final_model_path = f"{self.config.output.output_dir}/{self.config.output.checkpoint_name}_final.pt"
+        torch.save(self.model.state_dict(), final_model_path)
+        logger.info(f"Final model saved to {final_model_path}")
+        
+        return metrics.to_dict()
+    
+    def _validate(self, val_loader):
+        """Validate the model."""
+        self.model.eval()
+        total_loss = 0.0
+        total_ade = 0.0
+        total_fde = 0.0
+        
+        with torch.no_grad():
+            for batch in val_loader:
+                obs_traj = batch['obs_traj'].to(self.device)
+                pred_traj_gt = batch['pred_traj_gt'].to(self.device)
+                
+                # Forward pass
+                loss = self.model(obs_traj, pred_traj_gt)
+                total_loss += loss.item()
+                
+                # Generate predictions for evaluation
+                pred_traj = self.model.predict(obs_traj)
+                
+                # Calculate ADE and FDE
+                ade = torch.mean(torch.norm(pred_traj - pred_traj_gt, dim=-1)).item()
+                fde = torch.mean(torch.norm(pred_traj[:, -1] - pred_traj_gt[:, -1], dim=-1)).item()
+                
+                total_ade += ade
+                total_fde += fde
+        
+        avg_loss = total_loss / len(val_loader)
+        avg_ade = total_ade / len(val_loader)
+        avg_fde = total_fde / len(val_loader)
+        
+        return avg_loss, avg_ade, avg_fde
+
+
+def create_centralized_trainer(config):
+    """Create a centralized trainer instance."""
+    return CentralizedTrainer(config)

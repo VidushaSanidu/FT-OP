@@ -1,0 +1,22 @@
+[2025-07-26 18:04:24,405] [INFO] __main__: Starting Centralized Training for DO-TP Model
+[2025-07-26 18:04:24,405] [INFO] __main__: ==================================================
+[2025-07-26 18:04:24,405] [INFO] __main__: Configuration:
+[2025-07-26 18:04:24,405] [INFO] __main__:   Training datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-26 18:04:24,405] [INFO] __main__:   Validation dataset: zara1
+[2025-07-26 18:04:24,405] [INFO] __main__:   Number of epochs: 100
+[2025-07-26 18:04:24,405] [INFO] __main__:   Batch size: 32
+[2025-07-26 18:04:24,405] [INFO] __main__:   Learning rate: 0.001
+[2025-07-26 18:04:24,405] [INFO] __main__:   Output directory: /Users/vidushasanidu/Dev/Research/FT-OP/src
+[2025-07-26 18:04:24,405] [INFO] __main__:   Experiment name: centralized_training
+[2025-07-26 18:04:24,405] [INFO] __main__:   Use GPU: True
+[2025-07-26 18:04:24,405] [INFO] __main__: Configuration saved to: /Users/vidushasanidu/Dev/Research/FT-OP/src/centralized_training_config.json
+[2025-07-26 18:04:24,405] [INFO] __main__: Creating data manager...
+[2025-07-26 18:04:24,405] [INFO] core.data_manager: All required datasets are available
+[2025-07-26 18:04:24,405] [INFO] __main__: Loading training data...
+[2025-07-26 18:04:24,405] [ERROR] __main__: Training failed with error: 'DataManager' object has no attribute 'load_combined_training_data'
+[2025-07-26 18:04:24,405] [ERROR] __main__: Full traceback:
+Traceback (most recent call last):
+  File "/Users/vidushasanidu/Dev/Research/FT-OP/src/train/train_centralized.py", line 159, in main
+    train_data = data_manager.load_combined_training_data(config.train_datasets)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DataManager' object has no attribute 'load_combined_training_data'
