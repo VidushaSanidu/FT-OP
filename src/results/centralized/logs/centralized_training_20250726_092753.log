@@ -1,0 +1,638 @@
+[2025-07-26 09:27:53,722] [INFO] __main__: ================================================================================
+[2025-07-26 09:27:53,722] [INFO] __main__: CENTRALIZED TRAINING FOR DO-TP MODEL
+[2025-07-26 09:27:53,722] [INFO] __main__: ================================================================================
+[2025-07-26 09:27:53,722] [INFO] __main__: Experiment: centralized_training
+[2025-07-26 09:27:53,722] [INFO] __main__: Training datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-26 09:27:53,722] [INFO] __main__: Validation dataset: zara1
+[2025-07-26 09:27:53,722] [INFO] __main__: Output directory: ./results/centralized
+[2025-07-26 09:27:53,722] [INFO] __main__: Setting up data manager...
+[2025-07-26 09:27:53,722] [INFO] core.data_manager: All required datasets are available
+[2025-07-26 09:27:56,054] [INFO] core.data_manager: Loaded eth train dataset with 2785 samples
+[2025-07-26 09:27:56,383] [INFO] core.data_manager: Loaded eth val dataset with 660 samples
+[2025-07-26 09:27:56,621] [INFO] core.data_manager: Loaded eth test dataset with 70 samples
+[2025-07-26 09:27:58,832] [INFO] core.data_manager: Loaded hotel train dataset with 2594 samples
+[2025-07-26 09:27:59,150] [INFO] core.data_manager: Loaded hotel val dataset with 621 samples
+[2025-07-26 09:27:59,492] [INFO] core.data_manager: Loaded hotel test dataset with 301 samples
+[2025-07-26 09:28:01,720] [INFO] core.data_manager: Loaded zara1 train dataset with 2322 samples
+[2025-07-26 09:28:02,051] [INFO] core.data_manager: Loaded zara1 val dataset with 605 samples
+[2025-07-26 09:28:02,280] [INFO] core.data_manager: Loaded zara1 test dataset with 602 samples
+[2025-07-26 09:28:04,356] [INFO] core.data_manager: Loaded zara2 train dataset with 2112 samples
+[2025-07-26 09:28:04,645] [INFO] core.data_manager: Loaded zara2 val dataset with 501 samples
+[2025-07-26 09:28:05,167] [INFO] core.data_manager: Loaded zara2 test dataset with 921 samples
+[2025-07-26 09:28:06,290] [INFO] core.data_manager: Loaded univ train dataset with 2076 samples
+[2025-07-26 09:28:06,496] [INFO] core.data_manager: Loaded univ val dataset with 530 samples
+[2025-07-26 09:28:08,106] [INFO] core.data_manager: Loaded univ test dataset with 947 samples
+[2025-07-26 09:28:08,107] [INFO] __main__: Dataset statistics:
+[2025-07-26 09:28:08,107] [INFO] __main__:   eth: train=2785, val=660, test=70
+[2025-07-26 09:28:08,107] [INFO] __main__:   hotel: train=2594, val=621, test=301
+[2025-07-26 09:28:08,107] [INFO] __main__:   zara1: train=2322, val=605, test=602
+[2025-07-26 09:28:08,107] [INFO] __main__:   zara2: train=2112, val=501, test=921
+[2025-07-26 09:28:08,107] [INFO] __main__:   univ: train=2076, val=530, test=947
+[2025-07-26 09:28:08,107] [INFO] __main__: Creating data loaders...
+[2025-07-26 09:28:08,107] [INFO] core.data_manager: Preparing centralized training data from datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-26 09:28:10,398] [INFO] core.data_manager: Loaded eth train dataset with 2785 samples
+[2025-07-26 09:28:10,399] [INFO] core.data_manager: Added eth: 2785 samples
+[2025-07-26 09:28:12,611] [INFO] core.data_manager: Loaded hotel train dataset with 2594 samples
+[2025-07-26 09:28:12,611] [INFO] core.data_manager: Added hotel: 2594 samples
+[2025-07-26 09:28:14,875] [INFO] core.data_manager: Loaded zara1 train dataset with 2322 samples
+[2025-07-26 09:28:14,875] [INFO] core.data_manager: Added zara1: 2322 samples
+[2025-07-26 09:28:16,974] [INFO] core.data_manager: Loaded zara2 train dataset with 2112 samples
+[2025-07-26 09:28:16,975] [INFO] core.data_manager: Added zara2: 2112 samples
+[2025-07-26 09:28:18,094] [INFO] core.data_manager: Loaded univ train dataset with 2076 samples
+[2025-07-26 09:28:18,094] [INFO] core.data_manager: Added univ: 2076 samples
+[2025-07-26 09:28:18,094] [INFO] core.data_manager: Created centralized training loader with 11889 total samples
+[2025-07-26 09:28:18,094] [INFO] core.data_manager: Preparing validation data from dataset: zara1
+[2025-07-26 09:28:18,427] [INFO] core.data_manager: Loaded zara1 val dataset with 605 samples
+[2025-07-26 09:28:18,427] [INFO] __main__: Training samples: 11889
+[2025-07-26 09:28:18,427] [INFO] __main__: Validation samples: 605
+[2025-07-26 09:28:18,427] [INFO] __main__: Creating model...
+[2025-07-26 09:28:18,427] [INFO] core.training: Using CPU
+[2025-07-26 09:28:18,435] [INFO] __main__: Model created with 36866 parameters
+[2025-07-26 09:28:18,435] [INFO] __main__: Device: cpu
+[2025-07-26 09:28:18,435] [INFO] __main__: Configuration saved to ./results/centralized/centralized_training_config.json
+[2025-07-26 09:28:18,435] [INFO] __main__: Starting training...
+[2025-07-26 09:28:19,346] [INFO] core.training: Starting training for 200 epochs
+[2025-07-26 09:28:19,346] [INFO] core.training: Starting epoch 1/200
+[2025-07-26 09:28:21,366] [INFO] core.training: Batch [20/186], Total Loss: 0.0366, Traj Loss: 0.0363, KL Loss: 0.0029
+[2025-07-26 09:28:21,963] [INFO] core.training: Batch [40/186], Total Loss: 0.0175, Traj Loss: 0.0174, KL Loss: 0.0012
+[2025-07-26 09:28:22,540] [INFO] core.training: Batch [60/186], Total Loss: 0.0133, Traj Loss: 0.0133, KL Loss: 0.0005
+[2025-07-26 09:28:23,119] [INFO] core.training: Batch [80/186], Total Loss: 0.0114, Traj Loss: 0.0114, KL Loss: 0.0003
+[2025-07-26 09:28:23,680] [INFO] core.training: Batch [100/186], Total Loss: 0.0111, Traj Loss: 0.0111, KL Loss: 0.0002
+[2025-07-26 09:28:24,271] [INFO] core.training: Batch [120/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0001
+[2025-07-26 09:28:24,863] [INFO] core.training: Batch [140/186], Total Loss: 0.0108, Traj Loss: 0.0107, KL Loss: 0.0001
+[2025-07-26 09:28:25,447] [INFO] core.training: Batch [160/186], Total Loss: 0.0124, Traj Loss: 0.0124, KL Loss: 0.0001
+[2025-07-26 09:28:26,036] [INFO] core.training: Batch [180/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0001
+[2025-07-26 09:28:27,841] [INFO] core.training: Epoch [1/200] Train Loss: 0.0162, Val Loss: 0.0100, ADE: 1.2643, FDE: 2.4812, Time: 8.49s
+[2025-07-26 09:28:27,845] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:28:27,845] [INFO] core.training: Starting epoch 2/200
+[2025-07-26 09:28:29,334] [INFO] core.training: Batch [20/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0001
+[2025-07-26 09:28:29,938] [INFO] core.training: Batch [40/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0001
+[2025-07-26 09:28:30,531] [INFO] core.training: Batch [60/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:28:31,123] [INFO] core.training: Batch [80/186], Total Loss: 0.0111, Traj Loss: 0.0110, KL Loss: 0.0000
+[2025-07-26 09:28:31,720] [INFO] core.training: Batch [100/186], Total Loss: 0.0108, Traj Loss: 0.0108, KL Loss: 0.0000
+[2025-07-26 09:28:32,305] [INFO] core.training: Batch [120/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:28:32,922] [INFO] core.training: Batch [140/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:28:33,525] [INFO] core.training: Batch [160/186], Total Loss: 0.0106, Traj Loss: 0.0106, KL Loss: 0.0000
+[2025-07-26 09:28:34,110] [INFO] core.training: Batch [180/186], Total Loss: 0.0123, Traj Loss: 0.0123, KL Loss: 0.0000
+[2025-07-26 09:28:35,878] [INFO] core.training: Epoch [2/200] Train Loss: 0.0101, Val Loss: 0.0097, ADE: 1.2701, FDE: 2.4896, Time: 8.03s
+[2025-07-26 09:28:35,880] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:28:35,880] [INFO] core.training: Starting epoch 3/200
+[2025-07-26 09:28:37,387] [INFO] core.training: Batch [20/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:28:38,002] [INFO] core.training: Batch [40/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:28:38,597] [INFO] core.training: Batch [60/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:28:39,207] [INFO] core.training: Batch [80/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:28:39,816] [INFO] core.training: Batch [100/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:28:40,414] [INFO] core.training: Batch [120/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:28:41,023] [INFO] core.training: Batch [140/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:28:41,643] [INFO] core.training: Batch [160/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:28:42,241] [INFO] core.training: Batch [180/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:28:44,052] [INFO] core.training: Epoch [3/200] Train Loss: 0.0098, Val Loss: 0.0095, ADE: 1.2721, FDE: 2.4930, Time: 8.17s
+[2025-07-26 09:28:44,053] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:28:44,053] [INFO] core.training: Starting epoch 4/200
+[2025-07-26 09:28:45,610] [INFO] core.training: Batch [20/186], Total Loss: 0.0111, Traj Loss: 0.0111, KL Loss: 0.0000
+[2025-07-26 09:28:46,213] [INFO] core.training: Batch [40/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:28:46,855] [INFO] core.training: Batch [60/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:28:47,462] [INFO] core.training: Batch [80/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:28:48,061] [INFO] core.training: Batch [100/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:28:48,666] [INFO] core.training: Batch [120/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:28:49,270] [INFO] core.training: Batch [140/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:28:49,854] [INFO] core.training: Batch [160/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:28:50,447] [INFO] core.training: Batch [180/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:28:52,305] [INFO] core.training: Epoch [4/200] Train Loss: 0.0098, Val Loss: 0.0095, ADE: 1.2727, FDE: 2.4953, Time: 8.25s
+[2025-07-26 09:28:52,307] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:28:52,307] [INFO] core.training: Starting epoch 5/200
+[2025-07-26 09:28:53,802] [INFO] core.training: Batch [20/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:28:54,397] [INFO] core.training: Batch [40/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:28:54,999] [INFO] core.training: Batch [60/186], Total Loss: 0.0110, Traj Loss: 0.0110, KL Loss: 0.0000
+[2025-07-26 09:28:55,581] [INFO] core.training: Batch [80/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:28:56,183] [INFO] core.training: Batch [100/186], Total Loss: 0.0109, Traj Loss: 0.0109, KL Loss: 0.0000
+[2025-07-26 09:28:56,800] [INFO] core.training: Batch [120/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:28:57,404] [INFO] core.training: Batch [140/186], Total Loss: 0.0081, Traj Loss: 0.0081, KL Loss: 0.0000
+[2025-07-26 09:28:58,021] [INFO] core.training: Batch [160/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:28:58,649] [INFO] core.training: Batch [180/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:29:00,546] [INFO] core.training: Epoch [5/200] Train Loss: 0.0097, Val Loss: 0.0096, ADE: 1.2768, FDE: 2.5024, Time: 8.24s
+[2025-07-26 09:29:00,546] [INFO] core.training: Starting epoch 6/200
+[2025-07-26 09:29:02,133] [INFO] core.training: Batch [20/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:29:02,744] [INFO] core.training: Batch [40/186], Total Loss: 0.0105, Traj Loss: 0.0105, KL Loss: 0.0000
+[2025-07-26 09:29:03,362] [INFO] core.training: Batch [60/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:29:03,992] [INFO] core.training: Batch [80/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:29:04,641] [INFO] core.training: Batch [100/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:29:05,240] [INFO] core.training: Batch [120/186], Total Loss: 0.0106, Traj Loss: 0.0106, KL Loss: 0.0000
+[2025-07-26 09:29:05,869] [INFO] core.training: Batch [140/186], Total Loss: 0.0109, Traj Loss: 0.0109, KL Loss: 0.0000
+[2025-07-26 09:29:06,491] [INFO] core.training: Batch [160/186], Total Loss: 0.0077, Traj Loss: 0.0077, KL Loss: 0.0000
+[2025-07-26 09:29:07,070] [INFO] core.training: Batch [180/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:29:08,854] [INFO] core.training: Epoch [6/200] Train Loss: 0.0096, Val Loss: 0.0094, ADE: 1.2685, FDE: 2.4875, Time: 8.31s
+[2025-07-26 09:29:08,856] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:29:08,856] [INFO] core.training: Starting epoch 7/200
+[2025-07-26 09:29:10,354] [INFO] core.training: Batch [20/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:29:10,962] [INFO] core.training: Batch [40/186], Total Loss: 0.0114, Traj Loss: 0.0114, KL Loss: 0.0000
+[2025-07-26 09:29:11,565] [INFO] core.training: Batch [60/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:29:12,181] [INFO] core.training: Batch [80/186], Total Loss: 0.0108, Traj Loss: 0.0108, KL Loss: 0.0000
+[2025-07-26 09:29:12,782] [INFO] core.training: Batch [100/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:29:13,377] [INFO] core.training: Batch [120/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:29:13,985] [INFO] core.training: Batch [140/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:29:14,599] [INFO] core.training: Batch [160/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:29:15,195] [INFO] core.training: Batch [180/186], Total Loss: 0.0106, Traj Loss: 0.0106, KL Loss: 0.0000
+[2025-07-26 09:29:16,983] [INFO] core.training: Epoch [7/200] Train Loss: 0.0096, Val Loss: 0.0095, ADE: 1.2728, FDE: 2.4940, Time: 8.13s
+[2025-07-26 09:29:16,983] [INFO] core.training: Starting epoch 8/200
+[2025-07-26 09:29:18,460] [INFO] core.training: Batch [20/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:29:19,057] [INFO] core.training: Batch [40/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:29:19,678] [INFO] core.training: Batch [60/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:29:20,283] [INFO] core.training: Batch [80/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:29:20,924] [INFO] core.training: Batch [100/186], Total Loss: 0.0116, Traj Loss: 0.0116, KL Loss: 0.0000
+[2025-07-26 09:29:21,550] [INFO] core.training: Batch [120/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:29:22,161] [INFO] core.training: Batch [140/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:29:22,754] [INFO] core.training: Batch [160/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:29:23,361] [INFO] core.training: Batch [180/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:29:25,128] [INFO] core.training: Epoch [8/200] Train Loss: 0.0096, Val Loss: 0.0094, ADE: 1.2718, FDE: 2.4931, Time: 8.14s
+[2025-07-26 09:29:25,128] [INFO] core.training: Starting epoch 9/200
+[2025-07-26 09:29:26,634] [INFO] core.training: Batch [20/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:29:27,234] [INFO] core.training: Batch [40/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:29:27,864] [INFO] core.training: Batch [60/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:29:28,465] [INFO] core.training: Batch [80/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:29:29,061] [INFO] core.training: Batch [100/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:29:29,650] [INFO] core.training: Batch [120/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:29:30,299] [INFO] core.training: Batch [140/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:29:30,912] [INFO] core.training: Batch [160/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:29:31,515] [INFO] core.training: Batch [180/186], Total Loss: 0.0081, Traj Loss: 0.0081, KL Loss: 0.0000
+[2025-07-26 09:29:33,310] [INFO] core.training: Epoch [9/200] Train Loss: 0.0096, Val Loss: 0.0094, ADE: 1.2748, FDE: 2.4973, Time: 8.18s
+[2025-07-26 09:29:33,310] [INFO] core.training: Starting epoch 10/200
+[2025-07-26 09:29:34,803] [INFO] core.training: Batch [20/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:29:35,407] [INFO] core.training: Batch [40/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:29:36,002] [INFO] core.training: Batch [60/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:29:36,616] [INFO] core.training: Batch [80/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:29:37,249] [INFO] core.training: Batch [100/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:29:37,897] [INFO] core.training: Batch [120/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:29:38,470] [INFO] core.training: Batch [140/186], Total Loss: 0.0120, Traj Loss: 0.0120, KL Loss: 0.0000
+[2025-07-26 09:29:39,079] [INFO] core.training: Batch [160/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:29:39,714] [INFO] core.training: Batch [180/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:29:41,516] [INFO] core.training: Epoch [10/200] Train Loss: 0.0096, Val Loss: 0.0094, ADE: 1.2703, FDE: 2.4909, Time: 8.21s
+[2025-07-26 09:29:41,518] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:29:41,518] [INFO] core.training: Starting epoch 11/200
+[2025-07-26 09:29:43,046] [INFO] core.training: Batch [20/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:29:43,658] [INFO] core.training: Batch [40/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:29:44,270] [INFO] core.training: Batch [60/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:29:44,870] [INFO] core.training: Batch [80/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:29:45,480] [INFO] core.training: Batch [100/186], Total Loss: 0.0110, Traj Loss: 0.0110, KL Loss: 0.0000
+[2025-07-26 09:29:46,072] [INFO] core.training: Batch [120/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:29:46,687] [INFO] core.training: Batch [140/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:29:47,301] [INFO] core.training: Batch [160/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:29:47,893] [INFO] core.training: Batch [180/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:29:49,680] [INFO] core.training: Epoch [11/200] Train Loss: 0.0095, Val Loss: 0.0094, ADE: 1.2717, FDE: 2.4933, Time: 8.16s
+[2025-07-26 09:29:49,680] [INFO] core.training: Starting epoch 12/200
+[2025-07-26 09:29:51,186] [INFO] core.training: Batch [20/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:29:51,797] [INFO] core.training: Batch [40/186], Total Loss: 0.0076, Traj Loss: 0.0076, KL Loss: 0.0000
+[2025-07-26 09:29:52,410] [INFO] core.training: Batch [60/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:29:52,998] [INFO] core.training: Batch [80/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:29:53,597] [INFO] core.training: Batch [100/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:29:54,198] [INFO] core.training: Batch [120/186], Total Loss: 0.0108, Traj Loss: 0.0108, KL Loss: 0.0000
+[2025-07-26 09:29:54,786] [INFO] core.training: Batch [140/186], Total Loss: 0.0112, Traj Loss: 0.0112, KL Loss: 0.0000
+[2025-07-26 09:29:55,402] [INFO] core.training: Batch [160/186], Total Loss: 0.0077, Traj Loss: 0.0077, KL Loss: 0.0000
+[2025-07-26 09:29:56,027] [INFO] core.training: Batch [180/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:29:57,799] [INFO] core.training: Epoch [12/200] Train Loss: 0.0095, Val Loss: 0.0093, ADE: 1.2694, FDE: 2.4893, Time: 8.12s
+[2025-07-26 09:29:57,800] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:29:57,800] [INFO] core.training: Starting epoch 13/200
+[2025-07-26 09:29:59,333] [INFO] core.training: Batch [20/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:30:00,035] [INFO] core.training: Batch [40/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:30:00,630] [INFO] core.training: Batch [60/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:30:01,236] [INFO] core.training: Batch [80/186], Total Loss: 0.0105, Traj Loss: 0.0105, KL Loss: 0.0000
+[2025-07-26 09:30:01,855] [INFO] core.training: Batch [100/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:30:02,456] [INFO] core.training: Batch [120/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:30:03,066] [INFO] core.training: Batch [140/186], Total Loss: 0.0106, Traj Loss: 0.0106, KL Loss: 0.0000
+[2025-07-26 09:30:03,666] [INFO] core.training: Batch [160/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:30:04,284] [INFO] core.training: Batch [180/186], Total Loss: 0.0104, Traj Loss: 0.0104, KL Loss: 0.0000
+[2025-07-26 09:30:06,086] [INFO] core.training: Epoch [13/200] Train Loss: 0.0095, Val Loss: 0.0092, ADE: 1.2650, FDE: 2.4833, Time: 8.29s
+[2025-07-26 09:30:06,087] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:30:06,087] [INFO] core.training: Starting epoch 14/200
+[2025-07-26 09:30:07,601] [INFO] core.training: Batch [20/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:30:08,221] [INFO] core.training: Batch [40/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:30:08,839] [INFO] core.training: Batch [60/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:30:09,462] [INFO] core.training: Batch [80/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:30:10,065] [INFO] core.training: Batch [100/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:30:10,682] [INFO] core.training: Batch [120/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:30:11,292] [INFO] core.training: Batch [140/186], Total Loss: 0.0115, Traj Loss: 0.0115, KL Loss: 0.0000
+[2025-07-26 09:30:11,918] [INFO] core.training: Batch [160/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:30:12,515] [INFO] core.training: Batch [180/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:30:14,282] [INFO] core.training: Epoch [14/200] Train Loss: 0.0095, Val Loss: 0.0092, ADE: 1.2615, FDE: 2.4798, Time: 8.19s
+[2025-07-26 09:30:14,283] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:30:14,283] [INFO] core.training: Starting epoch 15/200
+[2025-07-26 09:30:15,796] [INFO] core.training: Batch [20/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:30:16,394] [INFO] core.training: Batch [40/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:30:16,994] [INFO] core.training: Batch [60/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:30:17,590] [INFO] core.training: Batch [80/186], Total Loss: 0.0104, Traj Loss: 0.0104, KL Loss: 0.0000
+[2025-07-26 09:30:18,234] [INFO] core.training: Batch [100/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:30:18,890] [INFO] core.training: Batch [120/186], Total Loss: 0.0108, Traj Loss: 0.0108, KL Loss: 0.0000
+[2025-07-26 09:30:19,500] [INFO] core.training: Batch [140/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:30:20,119] [INFO] core.training: Batch [160/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:30:20,722] [INFO] core.training: Batch [180/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:30:22,501] [INFO] core.training: Epoch [15/200] Train Loss: 0.0095, Val Loss: 0.0091, ADE: 1.2680, FDE: 2.4869, Time: 8.22s
+[2025-07-26 09:30:22,503] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:30:22,503] [INFO] core.training: Starting epoch 16/200
+[2025-07-26 09:30:24,074] [INFO] core.training: Batch [20/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:30:24,674] [INFO] core.training: Batch [40/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:30:25,329] [INFO] core.training: Batch [60/186], Total Loss: 0.0111, Traj Loss: 0.0111, KL Loss: 0.0000
+[2025-07-26 09:30:25,957] [INFO] core.training: Batch [80/186], Total Loss: 0.0110, Traj Loss: 0.0110, KL Loss: 0.0000
+[2025-07-26 09:30:26,574] [INFO] core.training: Batch [100/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:30:27,182] [INFO] core.training: Batch [120/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:30:27,821] [INFO] core.training: Batch [140/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:30:28,419] [INFO] core.training: Batch [160/186], Total Loss: 0.0105, Traj Loss: 0.0105, KL Loss: 0.0000
+[2025-07-26 09:30:29,026] [INFO] core.training: Batch [180/186], Total Loss: 0.0109, Traj Loss: 0.0109, KL Loss: 0.0000
+[2025-07-26 09:30:30,839] [INFO] core.training: Epoch [16/200] Train Loss: 0.0094, Val Loss: 0.0091, ADE: 1.2647, FDE: 2.4824, Time: 8.34s
+[2025-07-26 09:30:30,841] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:30:30,842] [INFO] core.training: Starting epoch 17/200
+[2025-07-26 09:30:32,377] [INFO] core.training: Batch [20/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:30:32,998] [INFO] core.training: Batch [40/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:30:33,619] [INFO] core.training: Batch [60/186], Total Loss: 0.0074, Traj Loss: 0.0074, KL Loss: 0.0000
+[2025-07-26 09:30:34,243] [INFO] core.training: Batch [80/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:30:34,839] [INFO] core.training: Batch [100/186], Total Loss: 0.0075, Traj Loss: 0.0075, KL Loss: 0.0000
+[2025-07-26 09:30:35,450] [INFO] core.training: Batch [120/186], Total Loss: 0.0108, Traj Loss: 0.0108, KL Loss: 0.0000
+[2025-07-26 09:30:36,067] [INFO] core.training: Batch [140/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:30:36,675] [INFO] core.training: Batch [160/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:30:37,289] [INFO] core.training: Batch [180/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:30:39,071] [INFO] core.training: Epoch [17/200] Train Loss: 0.0094, Val Loss: 0.0090, ADE: 1.2673, FDE: 2.4865, Time: 8.23s
+[2025-07-26 09:30:39,072] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:30:39,072] [INFO] core.training: Starting epoch 18/200
+[2025-07-26 09:30:40,592] [INFO] core.training: Batch [20/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:30:41,232] [INFO] core.training: Batch [40/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:30:41,840] [INFO] core.training: Batch [60/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:30:42,463] [INFO] core.training: Batch [80/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:30:43,085] [INFO] core.training: Batch [100/186], Total Loss: 0.0104, Traj Loss: 0.0104, KL Loss: 0.0000
+[2025-07-26 09:30:43,699] [INFO] core.training: Batch [120/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:30:44,328] [INFO] core.training: Batch [140/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:30:44,940] [INFO] core.training: Batch [160/186], Total Loss: 0.0109, Traj Loss: 0.0109, KL Loss: 0.0000
+[2025-07-26 09:30:45,602] [INFO] core.training: Batch [180/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:30:47,498] [INFO] core.training: Epoch [18/200] Train Loss: 0.0093, Val Loss: 0.0090, ADE: 1.2679, FDE: 2.4879, Time: 8.43s
+[2025-07-26 09:30:47,499] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:30:47,499] [INFO] core.training: Starting epoch 19/200
+[2025-07-26 09:30:49,072] [INFO] core.training: Batch [20/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:30:49,735] [INFO] core.training: Batch [40/186], Total Loss: 0.0124, Traj Loss: 0.0124, KL Loss: 0.0000
+[2025-07-26 09:30:50,371] [INFO] core.training: Batch [60/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:30:51,025] [INFO] core.training: Batch [80/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:30:51,623] [INFO] core.training: Batch [100/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:30:52,285] [INFO] core.training: Batch [120/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:30:52,917] [INFO] core.training: Batch [140/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:30:53,547] [INFO] core.training: Batch [160/186], Total Loss: 0.0125, Traj Loss: 0.0125, KL Loss: 0.0000
+[2025-07-26 09:30:54,160] [INFO] core.training: Batch [180/186], Total Loss: 0.0072, Traj Loss: 0.0072, KL Loss: 0.0000
+[2025-07-26 09:30:55,942] [INFO] core.training: Epoch [19/200] Train Loss: 0.0093, Val Loss: 0.0091, ADE: 1.2687, FDE: 2.4878, Time: 8.44s
+[2025-07-26 09:30:55,942] [INFO] core.training: Starting epoch 20/200
+[2025-07-26 09:30:57,482] [INFO] core.training: Batch [20/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:30:58,106] [INFO] core.training: Batch [40/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:30:58,712] [INFO] core.training: Batch [60/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:30:59,337] [INFO] core.training: Batch [80/186], Total Loss: 0.0081, Traj Loss: 0.0081, KL Loss: 0.0000
+[2025-07-26 09:30:59,949] [INFO] core.training: Batch [100/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:31:00,546] [INFO] core.training: Batch [120/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:31:01,168] [INFO] core.training: Batch [140/186], Total Loss: 0.0110, Traj Loss: 0.0110, KL Loss: 0.0000
+[2025-07-26 09:31:01,779] [INFO] core.training: Batch [160/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:31:02,382] [INFO] core.training: Batch [180/186], Total Loss: 0.0107, Traj Loss: 0.0107, KL Loss: 0.0000
+[2025-07-26 09:31:04,190] [INFO] core.training: Epoch [20/200] Train Loss: 0.0093, Val Loss: 0.0091, ADE: 1.2698, FDE: 2.4883, Time: 8.25s
+[2025-07-26 09:31:04,191] [INFO] core.training: Starting epoch 21/200
+[2025-07-26 09:31:05,698] [INFO] core.training: Batch [20/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:31:06,314] [INFO] core.training: Batch [40/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:31:06,933] [INFO] core.training: Batch [60/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:31:07,542] [INFO] core.training: Batch [80/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:31:08,168] [INFO] core.training: Batch [100/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:31:08,782] [INFO] core.training: Batch [120/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:31:09,391] [INFO] core.training: Batch [140/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:31:10,014] [INFO] core.training: Batch [160/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:31:10,630] [INFO] core.training: Batch [180/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:31:12,414] [INFO] core.training: Epoch [21/200] Train Loss: 0.0093, Val Loss: 0.0090, ADE: 1.2708, FDE: 2.4904, Time: 8.22s
+[2025-07-26 09:31:12,414] [INFO] core.training: Starting epoch 22/200
+[2025-07-26 09:31:13,939] [INFO] core.training: Batch [20/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:31:14,577] [INFO] core.training: Batch [40/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:31:15,186] [INFO] core.training: Batch [60/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:31:15,779] [INFO] core.training: Batch [80/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:31:16,410] [INFO] core.training: Batch [100/186], Total Loss: 0.0109, Traj Loss: 0.0109, KL Loss: 0.0000
+[2025-07-26 09:31:17,032] [INFO] core.training: Batch [120/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:31:17,644] [INFO] core.training: Batch [140/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:31:18,267] [INFO] core.training: Batch [160/186], Total Loss: 0.0079, Traj Loss: 0.0079, KL Loss: 0.0000
+[2025-07-26 09:31:18,862] [INFO] core.training: Batch [180/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:31:20,651] [INFO] core.training: Epoch [22/200] Train Loss: 0.0093, Val Loss: 0.0091, ADE: 1.2638, FDE: 2.4815, Time: 8.24s
+[2025-07-26 09:31:20,651] [INFO] core.training: Starting epoch 23/200
+[2025-07-26 09:31:22,180] [INFO] core.training: Batch [20/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:31:22,792] [INFO] core.training: Batch [40/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:31:23,395] [INFO] core.training: Batch [60/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:31:23,998] [INFO] core.training: Batch [80/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:31:24,616] [INFO] core.training: Batch [100/186], Total Loss: 0.0112, Traj Loss: 0.0112, KL Loss: 0.0000
+[2025-07-26 09:31:25,223] [INFO] core.training: Batch [120/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:31:25,836] [INFO] core.training: Batch [140/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:31:26,435] [INFO] core.training: Batch [160/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:31:27,108] [INFO] core.training: Batch [180/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:31:28,890] [INFO] core.training: Epoch [23/200] Train Loss: 0.0092, Val Loss: 0.0090, ADE: 1.2662, FDE: 2.4847, Time: 8.24s
+[2025-07-26 09:31:28,892] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:31:28,892] [INFO] core.training: Starting epoch 24/200
+[2025-07-26 09:31:30,403] [INFO] core.training: Batch [20/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:31:31,011] [INFO] core.training: Batch [40/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:31:31,654] [INFO] core.training: Batch [60/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:31:32,272] [INFO] core.training: Batch [80/186], Total Loss: 0.0077, Traj Loss: 0.0077, KL Loss: 0.0000
+[2025-07-26 09:31:32,883] [INFO] core.training: Batch [100/186], Total Loss: 0.0105, Traj Loss: 0.0105, KL Loss: 0.0000
+[2025-07-26 09:31:33,487] [INFO] core.training: Batch [120/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:31:34,097] [INFO] core.training: Batch [140/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:31:34,698] [INFO] core.training: Batch [160/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:31:35,316] [INFO] core.training: Batch [180/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:31:37,117] [INFO] core.training: Epoch [24/200] Train Loss: 0.0092, Val Loss: 0.0090, ADE: 1.2700, FDE: 2.4904, Time: 8.22s
+[2025-07-26 09:31:37,117] [INFO] core.training: Starting epoch 25/200
+[2025-07-26 09:31:38,640] [INFO] core.training: Batch [20/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:31:39,258] [INFO] core.training: Batch [40/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:31:39,868] [INFO] core.training: Batch [60/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:31:40,479] [INFO] core.training: Batch [80/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:31:41,118] [INFO] core.training: Batch [100/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:31:41,733] [INFO] core.training: Batch [120/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:31:42,362] [INFO] core.training: Batch [140/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:31:42,981] [INFO] core.training: Batch [160/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:31:43,596] [INFO] core.training: Batch [180/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:31:45,410] [INFO] core.training: Epoch [25/200] Train Loss: 0.0092, Val Loss: 0.0089, ADE: 1.2669, FDE: 2.4858, Time: 8.29s
+[2025-07-26 09:31:45,412] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:31:45,412] [INFO] core.training: Starting epoch 26/200
+[2025-07-26 09:31:46,942] [INFO] core.training: Batch [20/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:31:47,547] [INFO] core.training: Batch [40/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:31:48,169] [INFO] core.training: Batch [60/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:31:48,797] [INFO] core.training: Batch [80/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:31:49,417] [INFO] core.training: Batch [100/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:31:50,022] [INFO] core.training: Batch [120/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:31:50,631] [INFO] core.training: Batch [140/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:31:51,239] [INFO] core.training: Batch [160/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:31:51,854] [INFO] core.training: Batch [180/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:31:53,637] [INFO] core.training: Epoch [26/200] Train Loss: 0.0092, Val Loss: 0.0089, ADE: 1.2684, FDE: 2.4881, Time: 8.23s
+[2025-07-26 09:31:53,639] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:31:53,639] [INFO] core.training: Starting epoch 27/200
+[2025-07-26 09:31:55,168] [INFO] core.training: Batch [20/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:31:55,774] [INFO] core.training: Batch [40/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:31:56,380] [INFO] core.training: Batch [60/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:31:57,005] [INFO] core.training: Batch [80/186], Total Loss: 0.0107, Traj Loss: 0.0107, KL Loss: 0.0000
+[2025-07-26 09:31:57,616] [INFO] core.training: Batch [100/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:31:58,245] [INFO] core.training: Batch [120/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:31:58,879] [INFO] core.training: Batch [140/186], Total Loss: 0.0106, Traj Loss: 0.0106, KL Loss: 0.0000
+[2025-07-26 09:31:59,545] [INFO] core.training: Batch [160/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:32:00,175] [INFO] core.training: Batch [180/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:32:02,083] [INFO] core.training: Epoch [27/200] Train Loss: 0.0091, Val Loss: 0.0090, ADE: 1.2628, FDE: 2.4812, Time: 8.44s
+[2025-07-26 09:32:02,083] [INFO] core.training: Starting epoch 28/200
+[2025-07-26 09:32:03,613] [INFO] core.training: Batch [20/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:04,238] [INFO] core.training: Batch [40/186], Total Loss: 0.0067, Traj Loss: 0.0067, KL Loss: 0.0000
+[2025-07-26 09:32:04,864] [INFO] core.training: Batch [60/186], Total Loss: 0.0081, Traj Loss: 0.0081, KL Loss: 0.0000
+[2025-07-26 09:32:05,489] [INFO] core.training: Batch [80/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:32:06,106] [INFO] core.training: Batch [100/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:32:06,713] [INFO] core.training: Batch [120/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:07,335] [INFO] core.training: Batch [140/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:32:07,945] [INFO] core.training: Batch [160/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:32:08,570] [INFO] core.training: Batch [180/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:32:10,390] [INFO] core.training: Epoch [28/200] Train Loss: 0.0091, Val Loss: 0.0090, ADE: 1.2682, FDE: 2.4890, Time: 8.31s
+[2025-07-26 09:32:10,390] [INFO] core.training: Starting epoch 29/200
+[2025-07-26 09:32:11,945] [INFO] core.training: Batch [20/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:32:12,560] [INFO] core.training: Batch [40/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:32:13,185] [INFO] core.training: Batch [60/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:32:13,816] [INFO] core.training: Batch [80/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:32:14,438] [INFO] core.training: Batch [100/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:32:15,037] [INFO] core.training: Batch [120/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:32:15,641] [INFO] core.training: Batch [140/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:32:16,254] [INFO] core.training: Batch [160/186], Total Loss: 0.0081, Traj Loss: 0.0081, KL Loss: 0.0000
+[2025-07-26 09:32:16,913] [INFO] core.training: Batch [180/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:18,726] [INFO] core.training: Epoch [29/200] Train Loss: 0.0091, Val Loss: 0.0090, ADE: 1.2696, FDE: 2.4891, Time: 8.34s
+[2025-07-26 09:32:18,727] [INFO] core.training: Starting epoch 30/200
+[2025-07-26 09:32:20,259] [INFO] core.training: Batch [20/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:32:20,872] [INFO] core.training: Batch [40/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:32:21,486] [INFO] core.training: Batch [60/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:32:22,123] [INFO] core.training: Batch [80/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:32:22,741] [INFO] core.training: Batch [100/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:32:23,361] [INFO] core.training: Batch [120/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:32:23,969] [INFO] core.training: Batch [140/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:32:24,588] [INFO] core.training: Batch [160/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:32:25,197] [INFO] core.training: Batch [180/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:32:26,999] [INFO] core.training: Epoch [30/200] Train Loss: 0.0091, Val Loss: 0.0088, ADE: 1.2642, FDE: 2.4819, Time: 8.27s
+[2025-07-26 09:32:27,001] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:32:27,001] [INFO] core.training: Starting epoch 31/200
+[2025-07-26 09:32:28,553] [INFO] core.training: Batch [20/186], Total Loss: 0.0076, Traj Loss: 0.0076, KL Loss: 0.0000
+[2025-07-26 09:32:29,180] [INFO] core.training: Batch [40/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:32:29,790] [INFO] core.training: Batch [60/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:32:30,427] [INFO] core.training: Batch [80/186], Total Loss: 0.0074, Traj Loss: 0.0074, KL Loss: 0.0000
+[2025-07-26 09:32:31,029] [INFO] core.training: Batch [100/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:32:31,643] [INFO] core.training: Batch [120/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:32:32,265] [INFO] core.training: Batch [140/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:32:32,881] [INFO] core.training: Batch [160/186], Total Loss: 0.0072, Traj Loss: 0.0072, KL Loss: 0.0000
+[2025-07-26 09:32:33,483] [INFO] core.training: Batch [180/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:32:35,289] [INFO] core.training: Epoch [31/200] Train Loss: 0.0090, Val Loss: 0.0089, ADE: 1.2600, FDE: 2.4770, Time: 8.29s
+[2025-07-26 09:32:35,290] [INFO] core.training: Starting epoch 32/200
+[2025-07-26 09:32:36,817] [INFO] core.training: Batch [20/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:32:37,437] [INFO] core.training: Batch [40/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:38,070] [INFO] core.training: Batch [60/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:32:38,673] [INFO] core.training: Batch [80/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:32:39,284] [INFO] core.training: Batch [100/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:32:39,897] [INFO] core.training: Batch [120/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:32:40,512] [INFO] core.training: Batch [140/186], Total Loss: 0.0104, Traj Loss: 0.0104, KL Loss: 0.0000
+[2025-07-26 09:32:41,135] [INFO] core.training: Batch [160/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:32:41,761] [INFO] core.training: Batch [180/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:32:43,568] [INFO] core.training: Epoch [32/200] Train Loss: 0.0090, Val Loss: 0.0088, ADE: 1.2700, FDE: 2.4886, Time: 8.28s
+[2025-07-26 09:32:43,570] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:32:43,570] [INFO] core.training: Starting epoch 33/200
+[2025-07-26 09:32:45,107] [INFO] core.training: Batch [20/186], Total Loss: 0.0073, Traj Loss: 0.0073, KL Loss: 0.0000
+[2025-07-26 09:32:45,735] [INFO] core.training: Batch [40/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:32:46,352] [INFO] core.training: Batch [60/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:32:46,966] [INFO] core.training: Batch [80/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:32:47,584] [INFO] core.training: Batch [100/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:32:48,186] [INFO] core.training: Batch [120/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:32:48,800] [INFO] core.training: Batch [140/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:32:49,401] [INFO] core.training: Batch [160/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:50,022] [INFO] core.training: Batch [180/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:32:51,847] [INFO] core.training: Epoch [33/200] Train Loss: 0.0090, Val Loss: 0.0088, ADE: 1.2673, FDE: 2.4859, Time: 8.28s
+[2025-07-26 09:32:51,849] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:32:51,849] [INFO] core.training: Starting epoch 34/200
+[2025-07-26 09:32:53,406] [INFO] core.training: Batch [20/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:32:54,041] [INFO] core.training: Batch [40/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:32:54,647] [INFO] core.training: Batch [60/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:32:55,289] [INFO] core.training: Batch [80/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:55,912] [INFO] core.training: Batch [100/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:32:56,516] [INFO] core.training: Batch [120/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:32:57,127] [INFO] core.training: Batch [140/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:57,749] [INFO] core.training: Batch [160/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:32:58,347] [INFO] core.training: Batch [180/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:33:00,150] [INFO] core.training: Epoch [34/200] Train Loss: 0.0090, Val Loss: 0.0089, ADE: 1.2678, FDE: 2.4863, Time: 8.30s
+[2025-07-26 09:33:00,151] [INFO] core.training: Starting epoch 35/200
+[2025-07-26 09:33:01,687] [INFO] core.training: Batch [20/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:33:02,316] [INFO] core.training: Batch [40/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:33:02,945] [INFO] core.training: Batch [60/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:33:03,556] [INFO] core.training: Batch [80/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:33:04,178] [INFO] core.training: Batch [100/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:33:04,780] [INFO] core.training: Batch [120/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:33:05,397] [INFO] core.training: Batch [140/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:33:06,023] [INFO] core.training: Batch [160/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:33:06,647] [INFO] core.training: Batch [180/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:33:08,474] [INFO] core.training: Epoch [35/200] Train Loss: 0.0089, Val Loss: 0.0088, ADE: 1.2657, FDE: 2.4845, Time: 8.32s
+[2025-07-26 09:33:08,474] [INFO] core.training: Starting epoch 36/200
+[2025-07-26 09:33:10,012] [INFO] core.training: Batch [20/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:33:10,621] [INFO] core.training: Batch [40/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:33:11,243] [INFO] core.training: Batch [60/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:33:11,844] [INFO] core.training: Batch [80/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:33:12,457] [INFO] core.training: Batch [100/186], Total Loss: 0.0115, Traj Loss: 0.0115, KL Loss: 0.0000
+[2025-07-26 09:33:13,076] [INFO] core.training: Batch [120/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:33:13,692] [INFO] core.training: Batch [140/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:33:14,323] [INFO] core.training: Batch [160/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:33:14,975] [INFO] core.training: Batch [180/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:33:16,948] [INFO] core.training: Epoch [36/200] Train Loss: 0.0089, Val Loss: 0.0088, ADE: 1.2580, FDE: 2.4744, Time: 8.47s
+[2025-07-26 09:33:16,948] [INFO] core.training: Starting epoch 37/200
+[2025-07-26 09:33:18,622] [INFO] core.training: Batch [20/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:33:19,259] [INFO] core.training: Batch [40/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:33:19,944] [INFO] core.training: Batch [60/186], Total Loss: 0.0081, Traj Loss: 0.0081, KL Loss: 0.0000
+[2025-07-26 09:33:20,608] [INFO] core.training: Batch [80/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:33:21,238] [INFO] core.training: Batch [100/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:33:21,866] [INFO] core.training: Batch [120/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:33:22,474] [INFO] core.training: Batch [140/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:33:23,085] [INFO] core.training: Batch [160/186], Total Loss: 0.0075, Traj Loss: 0.0075, KL Loss: 0.0000
+[2025-07-26 09:33:23,700] [INFO] core.training: Batch [180/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:33:25,534] [INFO] core.training: Epoch [37/200] Train Loss: 0.0089, Val Loss: 0.0089, ADE: 1.2645, FDE: 2.4832, Time: 8.59s
+[2025-07-26 09:33:25,534] [INFO] core.training: Starting epoch 38/200
+[2025-07-26 09:33:27,052] [INFO] core.training: Batch [20/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:33:27,682] [INFO] core.training: Batch [40/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:33:28,283] [INFO] core.training: Batch [60/186], Total Loss: 0.0074, Traj Loss: 0.0074, KL Loss: 0.0000
+[2025-07-26 09:33:28,882] [INFO] core.training: Batch [80/186], Total Loss: 0.0074, Traj Loss: 0.0074, KL Loss: 0.0000
+[2025-07-26 09:33:29,501] [INFO] core.training: Batch [100/186], Total Loss: 0.0097, Traj Loss: 0.0097, KL Loss: 0.0000
+[2025-07-26 09:33:30,134] [INFO] core.training: Batch [120/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:33:30,775] [INFO] core.training: Batch [140/186], Total Loss: 0.0079, Traj Loss: 0.0079, KL Loss: 0.0000
+[2025-07-26 09:33:31,400] [INFO] core.training: Batch [160/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:33:32,016] [INFO] core.training: Batch [180/186], Total Loss: 0.0102, Traj Loss: 0.0102, KL Loss: 0.0000
+[2025-07-26 09:33:33,853] [INFO] core.training: Epoch [38/200] Train Loss: 0.0089, Val Loss: 0.0091, ADE: 1.2667, FDE: 2.4859, Time: 8.32s
+[2025-07-26 09:33:33,853] [INFO] core.training: Starting epoch 39/200
+[2025-07-26 09:33:35,400] [INFO] core.training: Batch [20/186], Total Loss: 0.0077, Traj Loss: 0.0077, KL Loss: 0.0000
+[2025-07-26 09:33:36,033] [INFO] core.training: Batch [40/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:33:36,656] [INFO] core.training: Batch [60/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:33:37,289] [INFO] core.training: Batch [80/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:33:37,903] [INFO] core.training: Batch [100/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:33:38,515] [INFO] core.training: Batch [120/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:33:39,139] [INFO] core.training: Batch [140/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:33:39,762] [INFO] core.training: Batch [160/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:33:40,363] [INFO] core.training: Batch [180/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:33:42,186] [INFO] core.training: Epoch [39/200] Train Loss: 0.0089, Val Loss: 0.0088, ADE: 1.2689, FDE: 2.4869, Time: 8.33s
+[2025-07-26 09:33:42,187] [INFO] core.training: Best model saved to ./results/centralized/do_tp_centralized_best.pt
+[2025-07-26 09:33:42,187] [INFO] core.training: Starting epoch 40/200
+[2025-07-26 09:33:43,722] [INFO] core.training: Batch [20/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:33:44,350] [INFO] core.training: Batch [40/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:33:44,970] [INFO] core.training: Batch [60/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:33:45,594] [INFO] core.training: Batch [80/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:33:46,216] [INFO] core.training: Batch [100/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:33:46,834] [INFO] core.training: Batch [120/186], Total Loss: 0.0081, Traj Loss: 0.0081, KL Loss: 0.0000
+[2025-07-26 09:33:47,454] [INFO] core.training: Batch [140/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:33:48,071] [INFO] core.training: Batch [160/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:33:48,693] [INFO] core.training: Batch [180/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:33:50,488] [INFO] core.training: Epoch [40/200] Train Loss: 0.0088, Val Loss: 0.0088, ADE: 1.2602, FDE: 2.4775, Time: 8.30s
+[2025-07-26 09:33:50,488] [INFO] core.training: Starting epoch 41/200
+[2025-07-26 09:33:52,016] [INFO] core.training: Batch [20/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:33:52,641] [INFO] core.training: Batch [40/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:33:53,252] [INFO] core.training: Batch [60/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:33:53,874] [INFO] core.training: Batch [80/186], Total Loss: 0.0069, Traj Loss: 0.0069, KL Loss: 0.0000
+[2025-07-26 09:33:54,484] [INFO] core.training: Batch [100/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:33:55,091] [INFO] core.training: Batch [120/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:33:55,712] [INFO] core.training: Batch [140/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:33:56,336] [INFO] core.training: Batch [160/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:33:56,963] [INFO] core.training: Batch [180/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:33:58,774] [INFO] core.training: Epoch [41/200] Train Loss: 0.0088, Val Loss: 0.0088, ADE: 1.2632, FDE: 2.4810, Time: 8.29s
+[2025-07-26 09:33:58,775] [INFO] core.training: Starting epoch 42/200
+[2025-07-26 09:34:00,318] [INFO] core.training: Batch [20/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:34:00,932] [INFO] core.training: Batch [40/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:34:01,548] [INFO] core.training: Batch [60/186], Total Loss: 0.0074, Traj Loss: 0.0074, KL Loss: 0.0000
+[2025-07-26 09:34:02,165] [INFO] core.training: Batch [80/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:34:02,784] [INFO] core.training: Batch [100/186], Total Loss: 0.0077, Traj Loss: 0.0077, KL Loss: 0.0000
+[2025-07-26 09:34:03,392] [INFO] core.training: Batch [120/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:34:04,015] [INFO] core.training: Batch [140/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:34:04,641] [INFO] core.training: Batch [160/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:34:05,266] [INFO] core.training: Batch [180/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:34:07,096] [INFO] core.training: Epoch [42/200] Train Loss: 0.0088, Val Loss: 0.0088, ADE: 1.2629, FDE: 2.4785, Time: 8.32s
+[2025-07-26 09:34:07,096] [INFO] core.training: Starting epoch 43/200
+[2025-07-26 09:34:08,643] [INFO] core.training: Batch [20/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:34:09,248] [INFO] core.training: Batch [40/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:34:09,859] [INFO] core.training: Batch [60/186], Total Loss: 0.0077, Traj Loss: 0.0077, KL Loss: 0.0000
+[2025-07-26 09:34:10,476] [INFO] core.training: Batch [80/186], Total Loss: 0.0079, Traj Loss: 0.0079, KL Loss: 0.0000
+[2025-07-26 09:34:11,109] [INFO] core.training: Batch [100/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:34:11,714] [INFO] core.training: Batch [120/186], Total Loss: 0.0089, Traj Loss: 0.0089, KL Loss: 0.0000
+[2025-07-26 09:34:12,358] [INFO] core.training: Batch [140/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:34:12,971] [INFO] core.training: Batch [160/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:34:13,582] [INFO] core.training: Batch [180/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:34:15,409] [INFO] core.training: Epoch [43/200] Train Loss: 0.0088, Val Loss: 0.0088, ADE: 1.2646, FDE: 2.4841, Time: 8.31s
+[2025-07-26 09:34:15,409] [INFO] core.training: Starting epoch 44/200
+[2025-07-26 09:34:16,987] [INFO] core.training: Batch [20/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:34:17,612] [INFO] core.training: Batch [40/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:34:18,228] [INFO] core.training: Batch [60/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:34:18,843] [INFO] core.training: Batch [80/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:34:19,443] [INFO] core.training: Batch [100/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:34:20,066] [INFO] core.training: Batch [120/186], Total Loss: 0.0076, Traj Loss: 0.0076, KL Loss: 0.0000
+[2025-07-26 09:34:20,697] [INFO] core.training: Batch [140/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:34:21,311] [INFO] core.training: Batch [160/186], Total Loss: 0.0074, Traj Loss: 0.0074, KL Loss: 0.0000
+[2025-07-26 09:34:21,934] [INFO] core.training: Batch [180/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:34:23,736] [INFO] core.training: Epoch [44/200] Train Loss: 0.0088, Val Loss: 0.0088, ADE: 1.2664, FDE: 2.4830, Time: 8.33s
+[2025-07-26 09:34:23,736] [INFO] core.training: Starting epoch 45/200
+[2025-07-26 09:34:25,279] [INFO] core.training: Batch [20/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:34:25,897] [INFO] core.training: Batch [40/186], Total Loss: 0.0107, Traj Loss: 0.0107, KL Loss: 0.0000
+[2025-07-26 09:34:26,515] [INFO] core.training: Batch [60/186], Total Loss: 0.0072, Traj Loss: 0.0072, KL Loss: 0.0000
+[2025-07-26 09:34:27,149] [INFO] core.training: Batch [80/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:34:27,768] [INFO] core.training: Batch [100/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:34:28,383] [INFO] core.training: Batch [120/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:34:29,015] [INFO] core.training: Batch [140/186], Total Loss: 0.0079, Traj Loss: 0.0079, KL Loss: 0.0000
+[2025-07-26 09:34:29,646] [INFO] core.training: Batch [160/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:34:30,255] [INFO] core.training: Batch [180/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:34:32,088] [INFO] core.training: Epoch [45/200] Train Loss: 0.0088, Val Loss: 0.0089, ADE: 1.2628, FDE: 2.4814, Time: 8.35s
+[2025-07-26 09:34:32,088] [INFO] core.training: Starting epoch 46/200
+[2025-07-26 09:34:33,604] [INFO] core.training: Batch [20/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:34:34,210] [INFO] core.training: Batch [40/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:34:34,821] [INFO] core.training: Batch [60/186], Total Loss: 0.0096, Traj Loss: 0.0096, KL Loss: 0.0000
+[2025-07-26 09:34:35,456] [INFO] core.training: Batch [80/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:34:36,069] [INFO] core.training: Batch [100/186], Total Loss: 0.0086, Traj Loss: 0.0086, KL Loss: 0.0000
+[2025-07-26 09:34:36,686] [INFO] core.training: Batch [120/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:34:37,320] [INFO] core.training: Batch [140/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:34:37,956] [INFO] core.training: Batch [160/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:34:38,561] [INFO] core.training: Batch [180/186], Total Loss: 0.0103, Traj Loss: 0.0103, KL Loss: 0.0000
+[2025-07-26 09:34:40,394] [INFO] core.training: Epoch [46/200] Train Loss: 0.0087, Val Loss: 0.0089, ADE: 1.2675, FDE: 2.4862, Time: 8.31s
+[2025-07-26 09:34:40,394] [INFO] core.training: Starting epoch 47/200
+[2025-07-26 09:34:41,974] [INFO] core.training: Batch [20/186], Total Loss: 0.0075, Traj Loss: 0.0075, KL Loss: 0.0000
+[2025-07-26 09:34:42,611] [INFO] core.training: Batch [40/186], Total Loss: 0.0100, Traj Loss: 0.0100, KL Loss: 0.0000
+[2025-07-26 09:34:43,228] [INFO] core.training: Batch [60/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:34:43,846] [INFO] core.training: Batch [80/186], Total Loss: 0.0095, Traj Loss: 0.0095, KL Loss: 0.0000
+[2025-07-26 09:34:44,500] [INFO] core.training: Batch [100/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:34:45,171] [INFO] core.training: Batch [120/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:34:45,785] [INFO] core.training: Batch [140/186], Total Loss: 0.0073, Traj Loss: 0.0073, KL Loss: 0.0000
+[2025-07-26 09:34:46,418] [INFO] core.training: Batch [160/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:34:47,035] [INFO] core.training: Batch [180/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:34:48,863] [INFO] core.training: Epoch [47/200] Train Loss: 0.0087, Val Loss: 0.0089, ADE: 1.2680, FDE: 2.4879, Time: 8.47s
+[2025-07-26 09:34:48,864] [INFO] core.training: Starting epoch 48/200
+[2025-07-26 09:34:50,432] [INFO] core.training: Batch [20/186], Total Loss: 0.0109, Traj Loss: 0.0109, KL Loss: 0.0000
+[2025-07-26 09:34:51,032] [INFO] core.training: Batch [40/186], Total Loss: 0.0101, Traj Loss: 0.0101, KL Loss: 0.0000
+[2025-07-26 09:34:51,643] [INFO] core.training: Batch [60/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:34:52,262] [INFO] core.training: Batch [80/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:34:52,873] [INFO] core.training: Batch [100/186], Total Loss: 0.0098, Traj Loss: 0.0098, KL Loss: 0.0000
+[2025-07-26 09:34:53,483] [INFO] core.training: Batch [120/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:34:54,117] [INFO] core.training: Batch [140/186], Total Loss: 0.0087, Traj Loss: 0.0087, KL Loss: 0.0000
+[2025-07-26 09:34:54,723] [INFO] core.training: Batch [160/186], Total Loss: 0.0090, Traj Loss: 0.0090, KL Loss: 0.0000
+[2025-07-26 09:34:55,351] [INFO] core.training: Batch [180/186], Total Loss: 0.0079, Traj Loss: 0.0079, KL Loss: 0.0000
+[2025-07-26 09:34:57,160] [INFO] core.training: Epoch [48/200] Train Loss: 0.0087, Val Loss: 0.0089, ADE: 1.2688, FDE: 2.4863, Time: 8.30s
+[2025-07-26 09:34:57,160] [INFO] core.training: Starting epoch 49/200
+[2025-07-26 09:34:58,692] [INFO] core.training: Batch [20/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:34:59,291] [INFO] core.training: Batch [40/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:34:59,909] [INFO] core.training: Batch [60/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:35:00,513] [INFO] core.training: Batch [80/186], Total Loss: 0.0084, Traj Loss: 0.0084, KL Loss: 0.0000
+[2025-07-26 09:35:01,133] [INFO] core.training: Batch [100/186], Total Loss: 0.0088, Traj Loss: 0.0088, KL Loss: 0.0000
+[2025-07-26 09:35:01,734] [INFO] core.training: Batch [120/186], Total Loss: 0.0091, Traj Loss: 0.0091, KL Loss: 0.0000
+[2025-07-26 09:35:02,345] [INFO] core.training: Batch [140/186], Total Loss: 0.0094, Traj Loss: 0.0094, KL Loss: 0.0000
+[2025-07-26 09:35:02,964] [INFO] core.training: Batch [160/186], Total Loss: 0.0079, Traj Loss: 0.0079, KL Loss: 0.0000
+[2025-07-26 09:35:03,588] [INFO] core.training: Batch [180/186], Total Loss: 0.0073, Traj Loss: 0.0073, KL Loss: 0.0000
+[2025-07-26 09:35:05,396] [INFO] core.training: Epoch [49/200] Train Loss: 0.0087, Val Loss: 0.0090, ADE: 1.2672, FDE: 2.4842, Time: 8.24s
+[2025-07-26 09:35:05,396] [INFO] core.training: Starting epoch 50/200
+[2025-07-26 09:35:06,915] [INFO] core.training: Batch [20/186], Total Loss: 0.0082, Traj Loss: 0.0082, KL Loss: 0.0000
+[2025-07-26 09:35:07,532] [INFO] core.training: Batch [40/186], Total Loss: 0.0093, Traj Loss: 0.0093, KL Loss: 0.0000
+[2025-07-26 09:35:08,146] [INFO] core.training: Batch [60/186], Total Loss: 0.0080, Traj Loss: 0.0080, KL Loss: 0.0000
+[2025-07-26 09:35:08,765] [INFO] core.training: Batch [80/186], Total Loss: 0.0099, Traj Loss: 0.0099, KL Loss: 0.0000
+[2025-07-26 09:35:09,382] [INFO] core.training: Batch [100/186], Total Loss: 0.0085, Traj Loss: 0.0085, KL Loss: 0.0000
+[2025-07-26 09:35:09,983] [INFO] core.training: Batch [120/186], Total Loss: 0.0083, Traj Loss: 0.0083, KL Loss: 0.0000
+[2025-07-26 09:35:10,596] [INFO] core.training: Batch [140/186], Total Loss: 0.0078, Traj Loss: 0.0078, KL Loss: 0.0000
+[2025-07-26 09:35:11,213] [INFO] core.training: Batch [160/186], Total Loss: 0.0079, Traj Loss: 0.0079, KL Loss: 0.0000
+[2025-07-26 09:35:11,832] [INFO] core.training: Batch [180/186], Total Loss: 0.0092, Traj Loss: 0.0092, KL Loss: 0.0000
+[2025-07-26 09:35:13,623] [INFO] core.training: Epoch [50/200] Train Loss: 0.0087, Val Loss: 0.0091, ADE: 1.2656, FDE: 2.4841, Time: 8.23s
+[2025-07-26 09:35:13,623] [INFO] core.training: Early stopping triggered at epoch 50
+[2025-07-26 09:35:13,624] [INFO] __main__: Training completed!
+[2025-07-26 09:35:13,625] [INFO] __main__: Best validation metrics:
+[2025-07-26 09:35:13,625] [INFO] __main__:   Epoch: 39
+[2025-07-26 09:35:13,625] [INFO] __main__:   Loss: 0.0088
+[2025-07-26 09:35:13,625] [INFO] __main__:   ADE: 1.2689
+[2025-07-26 09:35:13,625] [INFO] __main__:   FDE: 2.4869
+[2025-07-26 09:35:13,625] [INFO] __main__:   Total training time: 414.23s
+[2025-07-26 09:35:13,625] [INFO] __main__: Creating training plots...
+[2025-07-26 09:35:14,199] [INFO] core.evaluation: Saved training curves for centralized_training
+[2025-07-26 09:35:14,430] [INFO] core.evaluation: Saved validation metrics for centralized_training
+[2025-07-26 09:35:14,432] [INFO] __main__: Final model saved to ./results/centralized/do_tp_centralized_final.pt
+[2025-07-26 09:35:14,432] [INFO] __main__: Training metrics saved to ./results/centralized/centralized_training_metrics.json
+[2025-07-26 09:35:14,433] [INFO] __main__: Centralized training completed successfully!
