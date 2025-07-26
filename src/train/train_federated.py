@@ -11,7 +11,7 @@ import json
 from datetime import datetime
 
 # Add src directory to path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from core.config import ExperimentConfig, get_federated_config
 from core.data_manager import create_data_manager

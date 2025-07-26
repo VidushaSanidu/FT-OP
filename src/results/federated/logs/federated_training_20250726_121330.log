@@ -1,0 +1,168 @@
+[2025-07-26 12:13:30,944] [INFO] __main__: ================================================================================
+[2025-07-26 12:13:30,944] [INFO] __main__: FEDERATED TRAINING FOR DO-TP MODEL
+[2025-07-26 12:13:30,944] [INFO] __main__: ================================================================================
+[2025-07-26 12:13:30,944] [INFO] __main__: Experiment: federated_training
+[2025-07-26 12:13:30,944] [INFO] __main__: Client datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-26 12:13:30,944] [INFO] __main__: Validation dataset: zara1
+[2025-07-26 12:13:30,944] [INFO] __main__: Global rounds: 10
+[2025-07-26 12:13:30,944] [INFO] __main__: Local epochs: 7
+[2025-07-26 12:13:30,944] [INFO] __main__: Clients per round: 5
+[2025-07-26 12:13:30,944] [INFO] __main__: Aggregation method: weighted_avg
+[2025-07-26 12:13:30,944] [INFO] __main__: Output directory: ./results/federated
+[2025-07-26 12:13:30,944] [INFO] __main__: Setting up data manager...
+[2025-07-26 12:13:30,944] [INFO] core.data_manager: All required datasets are available
+[2025-07-26 12:13:33,316] [INFO] core.data_manager: Loaded eth train dataset with 2785 samples
+[2025-07-26 12:13:33,651] [INFO] core.data_manager: Loaded eth val dataset with 660 samples
+[2025-07-26 12:13:33,890] [INFO] core.data_manager: Loaded eth test dataset with 70 samples
+[2025-07-26 12:13:36,105] [INFO] core.data_manager: Loaded hotel train dataset with 2594 samples
+[2025-07-26 12:13:36,434] [INFO] core.data_manager: Loaded hotel val dataset with 621 samples
+[2025-07-26 12:13:36,809] [INFO] core.data_manager: Loaded hotel test dataset with 301 samples
+[2025-07-26 12:13:39,092] [INFO] core.data_manager: Loaded zara1 train dataset with 2322 samples
+[2025-07-26 12:13:39,430] [INFO] core.data_manager: Loaded zara1 val dataset with 605 samples
+[2025-07-26 12:13:39,664] [INFO] core.data_manager: Loaded zara1 test dataset with 602 samples
+[2025-07-26 12:13:41,756] [INFO] core.data_manager: Loaded zara2 train dataset with 2112 samples
+[2025-07-26 12:13:42,044] [INFO] core.data_manager: Loaded zara2 val dataset with 501 samples
+[2025-07-26 12:13:42,570] [INFO] core.data_manager: Loaded zara2 test dataset with 921 samples
+[2025-07-26 12:13:43,704] [INFO] core.data_manager: Loaded univ train dataset with 2076 samples
+[2025-07-26 12:13:43,910] [INFO] core.data_manager: Loaded univ val dataset with 530 samples
+[2025-07-26 12:13:45,541] [INFO] core.data_manager: Loaded univ test dataset with 947 samples
+[2025-07-26 12:13:45,541] [INFO] __main__: Dataset statistics:
+[2025-07-26 12:13:45,541] [INFO] __main__:   eth: train=2785, val=660, test=70
+[2025-07-26 12:13:45,541] [INFO] __main__:   hotel: train=2594, val=621, test=301
+[2025-07-26 12:13:45,541] [INFO] __main__:   zara1: train=2322, val=605, test=602
+[2025-07-26 12:13:45,541] [INFO] __main__:   zara2: train=2112, val=501, test=921
+[2025-07-26 12:13:45,541] [INFO] __main__:   univ: train=2076, val=530, test=947
+[2025-07-26 12:13:45,541] [INFO] __main__: Creating federated client data loaders...
+[2025-07-26 12:13:45,541] [INFO] core.data_manager: Preparing federated client data from datasets: ['eth', 'hotel', 'zara1', 'zara2', 'univ']
+[2025-07-26 12:13:47,848] [INFO] core.data_manager: Loaded eth train dataset with 2785 samples
+[2025-07-26 12:13:50,085] [INFO] core.data_manager: Loaded hotel train dataset with 2594 samples
+[2025-07-26 12:13:52,365] [INFO] core.data_manager: Loaded zara1 train dataset with 2322 samples
+[2025-07-26 12:13:54,435] [INFO] core.data_manager: Loaded zara2 train dataset with 2112 samples
+[2025-07-26 12:13:55,570] [INFO] core.data_manager: Loaded univ train dataset with 2076 samples
+[2025-07-26 12:13:55,570] [INFO] core.data_manager: Created 5 federated clients
+[2025-07-26 12:13:55,570] [INFO] core.data_manager: Preparing validation data from dataset: zara1
+[2025-07-26 12:13:55,905] [INFO] core.data_manager: Loaded zara1 val dataset with 605 samples
+[2025-07-26 12:13:55,905] [INFO] __main__: Created 5 federated clients
+[2025-07-26 12:13:55,905] [INFO] __main__:   Client eth: 2785 samples
+[2025-07-26 12:13:55,905] [INFO] __main__:   Client hotel: 2594 samples
+[2025-07-26 12:13:55,905] [INFO] __main__:   Client zara1: 2322 samples
+[2025-07-26 12:13:55,905] [INFO] __main__:   Client zara2: 2112 samples
+[2025-07-26 12:13:55,905] [INFO] __main__:   Client univ: 2076 samples
+[2025-07-26 12:13:55,905] [INFO] __main__: Validation samples: 605
+[2025-07-26 12:13:55,905] [INFO] __main__: Creating federated trainer...
+[2025-07-26 12:13:55,905] [INFO] core.training: Using CPU
+[2025-07-26 12:13:55,905] [INFO] core.federated: Federated trainer initialized with 5 clients
+[2025-07-26 12:13:55,905] [INFO] core.federated: Client weights: {'eth': 0.23425014719488602, 'hotel': 0.21818487677685255, 'zara1': 0.19530658591975775, 'zara2': 0.17764319959626546, 'univ': 0.1746151905122382}
+[2025-07-26 12:13:55,905] [INFO] __main__: Client statistics:
+[2025-07-26 12:13:55,905] [INFO] __main__:   Total clients: 5
+[2025-07-26 12:13:55,905] [INFO] __main__:   Total samples: 11889
+[2025-07-26 12:13:55,905] [INFO] __main__:   Client weights:
+[2025-07-26 12:13:55,905] [INFO] __main__:     eth: 0.2343
+[2025-07-26 12:13:55,905] [INFO] __main__:     hotel: 0.2182
+[2025-07-26 12:13:55,905] [INFO] __main__:     zara1: 0.1953
+[2025-07-26 12:13:55,905] [INFO] __main__:     zara2: 0.1776
+[2025-07-26 12:13:55,905] [INFO] __main__:     univ: 0.1746
+[2025-07-26 12:13:55,905] [INFO] __main__: Configuration saved to ./results/federated/federated_training_config.json
+[2025-07-26 12:13:55,905] [INFO] __main__: Starting federated training...
+[2025-07-26 12:13:55,912] [INFO] core.federated: Starting federated training for 10 rounds
+[2025-07-26 12:13:55,912] [INFO] core.federated: --- Global Round 1/10 ---
+[2025-07-26 12:13:55,912] [INFO] core.federated: Training client: eth
+[2025-07-26 12:14:17,518] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:14:37,500] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:14:56,823] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:15:15,134] [INFO] core.federated: Training client: univ
+[2025-07-26 12:15:28,948] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:15:30,329] [INFO] core.federated: Round 1 - Val Loss: 0.0095, ADE: 1.2643, FDE: 2.4814
+[2025-07-26 12:15:30,332] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_1.pt
+[2025-07-26 12:15:30,332] [INFO] core.federated: --- Global Round 2/10 ---
+[2025-07-26 12:15:30,333] [INFO] core.federated: Training client: eth
+[2025-07-26 12:15:51,508] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:16:11,976] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:16:31,613] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:16:50,173] [INFO] core.federated: Training client: univ
+[2025-07-26 12:17:04,074] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:17:05,452] [INFO] core.federated: Round 2 - Val Loss: 0.0094, ADE: 1.2678, FDE: 2.4881
+[2025-07-26 12:17:05,453] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_2.pt
+[2025-07-26 12:17:05,453] [INFO] core.federated: --- Global Round 3/10 ---
+[2025-07-26 12:17:05,454] [INFO] core.federated: Training client: eth
+[2025-07-26 12:17:26,610] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:17:47,093] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:18:06,735] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:18:25,298] [INFO] core.federated: Training client: univ
+[2025-07-26 12:18:39,232] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:18:40,640] [INFO] core.federated: Round 3 - Val Loss: 0.0094, ADE: 1.2673, FDE: 2.4868
+[2025-07-26 12:18:40,642] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_3.pt
+[2025-07-26 12:18:40,642] [INFO] core.federated: --- Global Round 4/10 ---
+[2025-07-26 12:18:40,642] [INFO] core.federated: Training client: eth
+[2025-07-26 12:19:02,076] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:19:22,831] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:19:42,441] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:20:01,036] [INFO] core.federated: Training client: univ
+[2025-07-26 12:20:15,157] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:20:16,521] [INFO] core.federated: Round 4 - Val Loss: 0.0092, ADE: 1.2647, FDE: 2.4838
+[2025-07-26 12:20:16,523] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_4.pt
+[2025-07-26 12:20:16,523] [INFO] core.federated: --- Global Round 5/10 ---
+[2025-07-26 12:20:16,523] [INFO] core.federated: Training client: eth
+[2025-07-26 12:20:37,675] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:20:58,088] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:21:17,716] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:21:36,279] [INFO] core.federated: Training client: univ
+[2025-07-26 12:21:50,202] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:21:51,581] [INFO] core.federated: Round 5 - Val Loss: 0.0092, ADE: 1.2687, FDE: 2.4877
+[2025-07-26 12:21:51,583] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_5.pt
+[2025-07-26 12:21:51,583] [INFO] core.federated: --- Global Round 6/10 ---
+[2025-07-26 12:21:51,583] [INFO] core.federated: Training client: eth
+[2025-07-26 12:22:12,731] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:22:33,246] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:22:52,941] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:23:11,574] [INFO] core.federated: Training client: univ
+[2025-07-26 12:23:25,511] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:23:26,872] [INFO] core.federated: Round 6 - Val Loss: 0.0090, ADE: 1.2667, FDE: 2.4856
+[2025-07-26 12:23:26,873] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_6.pt
+[2025-07-26 12:23:26,873] [INFO] core.federated: --- Global Round 7/10 ---
+[2025-07-26 12:23:26,873] [INFO] core.federated: Training client: eth
+[2025-07-26 12:23:48,050] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:24:08,580] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:24:28,175] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:24:46,843] [INFO] core.federated: Training client: univ
+[2025-07-26 12:25:00,736] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:25:02,110] [INFO] core.federated: Round 7 - Val Loss: 0.0090, ADE: 1.2620, FDE: 2.4796
+[2025-07-26 12:25:02,111] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_7.pt
+[2025-07-26 12:25:02,111] [INFO] core.federated: --- Global Round 8/10 ---
+[2025-07-26 12:25:02,111] [INFO] core.federated: Training client: eth
+[2025-07-26 12:25:23,391] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:25:44,281] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:26:03,891] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:26:22,445] [INFO] core.federated: Training client: univ
+[2025-07-26 12:26:36,404] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:26:37,772] [INFO] core.federated: Round 8 - Val Loss: 0.0089, ADE: 1.2676, FDE: 2.4869
+[2025-07-26 12:26:37,773] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_8.pt
+[2025-07-26 12:26:37,773] [INFO] core.federated: --- Global Round 9/10 ---
+[2025-07-26 12:26:37,774] [INFO] core.federated: Training client: eth
+[2025-07-26 12:26:58,828] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:27:19,253] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:27:38,851] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:27:57,390] [INFO] core.federated: Training client: univ
+[2025-07-26 12:28:11,279] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:28:12,623] [INFO] core.federated: Round 9 - Val Loss: 0.0089, ADE: 1.2677, FDE: 2.4863
+[2025-07-26 12:28:12,624] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_9.pt
+[2025-07-26 12:28:12,624] [INFO] core.federated: --- Global Round 10/10 ---
+[2025-07-26 12:28:12,624] [INFO] core.federated: Training client: eth
+[2025-07-26 12:28:33,756] [INFO] core.federated: Training client: hotel
+[2025-07-26 12:28:54,207] [INFO] core.federated: Training client: zara1
+[2025-07-26 12:29:13,780] [INFO] core.federated: Training client: zara2
+[2025-07-26 12:29:32,545] [INFO] core.federated: Training client: univ
+[2025-07-26 12:29:46,528] [INFO] core.federated: Aggregating model updates...
+[2025-07-26 12:29:47,899] [INFO] core.federated: Round 10 - Val Loss: 0.0089, ADE: 1.2663, FDE: 2.4842
+[2025-07-26 12:29:47,900] [INFO] core.federated: Saved checkpoint: do_tp_federated_federated_round_10.pt
+[2025-07-26 12:29:47,901] [INFO] core.federated: Final federated model saved: do_tp_federated_federated_final.pt
+[2025-07-26 12:29:47,901] [INFO] __main__: Federated training completed!
+[2025-07-26 12:29:47,901] [INFO] __main__: Best validation metrics:
+[2025-07-26 12:29:47,901] [INFO] __main__:   Round: 8
+[2025-07-26 12:29:47,901] [INFO] __main__:   Loss: 0.0089
+[2025-07-26 12:29:47,901] [INFO] __main__:   ADE: 1.2676
+[2025-07-26 12:29:47,901] [INFO] __main__:   FDE: 2.4869
+[2025-07-26 12:29:47,901] [INFO] __main__: Creating training plots...
+[2025-07-26 12:29:48,240] [INFO] __main__: Federated training progress plots saved
+[2025-07-26 12:29:48,240] [INFO] __main__: Training metrics saved to ./results/federated/federated_training_metrics.json
+[2025-07-26 12:29:48,240] [INFO] __main__: Federated training completed successfully!

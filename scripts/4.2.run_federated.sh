@@ -111,7 +111,7 @@ if [ -f "../.venv/bin/activate" ]; then
 fi
 
 # Run federated training
-python train_federated_new.py \
+python train/train_federated.py \
     --client_datasets $CLIENT_DATASETS \
     --validation_dataset "$VALIDATION_DATASET" \
     --global_rounds "$GLOBAL_ROUNDS" \
