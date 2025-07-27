@@ -13,8 +13,8 @@ class ModelConfig:
     obs_len: int = 8
     pred_len: int = 12
     input_dim: int = 2
-    enc_hidden_dim: int = 32
-    dest_dim: int = 32
+    enc_hidden_dim: int = 128  # Increased from 32 to match centralized
+    dest_dim: int = 256        # Increased from 32 to match centralized
     kl_beta: float = 0.1
 
 @dataclass
@@ -40,8 +40,8 @@ class TrainingConfig:
 @dataclass
 class FederatedConfig:
     """Configuration specific to federated learning."""
-    global_rounds: int = 10
-    local_epochs: int = 7
+    global_rounds: int = 20      # Increased from 10 to 20
+    local_epochs: int = 10       # Increased from 7 to 10
     clients_per_round: int = 5
     aggregation_method: str = "weighted_avg"  # weighted_avg, simple_avg
     

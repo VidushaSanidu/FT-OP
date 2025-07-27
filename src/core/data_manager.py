@@ -104,6 +104,24 @@ class DataManager:
         logger.info(f"Created {len(client_loaders)} federated clients")
         return client_loaders
     
+    def get_federated_client_validation_loaders(self) -> Dict[str, Tuple[any, DataLoader]]:
+        """Get validation data loaders for each federated learning client."""
+        client_val_loaders = {}
+        
+        logger.info(f"Preparing federated client validation data from datasets: {self.train_datasets}")
+        
+        for dataset_name in self.train_datasets:
+            dset, loader = self.get_single_dataset_loader(dataset_name, 'val')
+            if dset is not None and loader is not None:
+                client_val_loaders[dataset_name] = (dset, loader)
+                logger.info(f"  Client {dataset_name} validation: {len(dset)} samples")
+        
+        if not client_val_loaders:
+            raise ValueError("No valid client validation datasets found for federated learning")
+        
+        logger.info(f"Created validation loaders for {len(client_val_loaders)} federated clients")
+        return client_val_loaders
+    
     def get_data_statistics(self) -> Dict[str, any]:
         """Get statistics about the available data."""
         stats = {

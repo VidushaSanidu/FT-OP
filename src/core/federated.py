@@ -4,6 +4,7 @@ Federated learning implementation for DO-TP model.
 
 import copy
 import logging
+import os
 from collections import OrderedDict
 from typing import Dict, List, Tuple, Optional, Any
 
@@ -19,10 +20,10 @@ logger = logging.getLogger(__name__)
 class FederatedTrainer:
     """Handles federated learning training process."""
     
-    def __init__(self, config, client_loaders: Dict[str, Tuple[any, DataLoader]], val_loader: DataLoader):
+    def __init__(self, config, client_loaders: Dict[str, Tuple[any, DataLoader]], client_val_loaders: Dict[str, Tuple[any, DataLoader]]):
         self.config = config
         self.client_loaders = client_loaders
-        self.val_loader = val_loader
+        self.client_val_loaders = client_val_loaders
         self.device = get_device(config.training.use_gpu, config.training.gpu_num)
         
         # Calculate client weights based on data size
@@ -34,6 +35,7 @@ class FederatedTrainer:
         
         logger.info(f"Federated trainer initialized with {len(client_loaders)} clients")
         logger.info(f"Client weights: {self.client_weights}")
+        logger.info(f"Client validation datasets: {list(client_val_loaders.keys())}")
     
     def create_global_model(self) -> DO_TP:
         """Create and initialize the global model."""
@@ -166,10 +168,71 @@ class FederatedTrainer:
         
         return avg_loss, avg_ade, avg_fde
     
+    def evaluate_client_local_validation(self, model: DO_TP, client_name: str) -> Tuple[float, float, float]:
+        """Evaluate the global model on a specific client's local validation data."""
+        if client_name not in self.client_val_loaders:
+            logger.warning(f"No validation data available for client {client_name}")
+            return float('inf'), float('inf'), float('inf')
+            
+        model.eval()
+        _, val_loader = self.client_val_loaders[client_name]
+        
+        total_loss = 0.0
+        total_ade = 0.0
+        total_fde = 0.0
+        total_samples = 0
+        
+        with torch.no_grad():
+            for batch in val_loader:
+                batch = [tensor.to(self.device) for tensor in batch]
+                (obs_traj, pred_traj_gt, obs_traj_rel, pred_traj_gt_rel, 
+                 non_linear_ped, loss_mask, seq_start_end) = batch
+                
+                pred_disp, d_i, d_hat_i = model(obs_traj, pred_traj_gt)
+                loss, _, _ = model.compute_loss(pred_disp, pred_traj_gt_rel, d_i, d_hat_i)
+                
+                # Calculate prediction trajectory
+                pred_traj = pred_disp + obs_traj[:, -1].unsqueeze(1)
+                
+                # Calculate metrics
+                batch_size = pred_traj.size(0)
+                ade = torch.norm(pred_traj - pred_traj_gt, dim=2).mean().item()
+                fde = torch.norm(pred_traj[:, -1] - pred_traj_gt[:, -1], dim=1).mean().item()
+                
+                total_loss += loss.item() * batch_size
+                total_ade += ade * batch_size
+                total_fde += fde * batch_size
+                total_samples += batch_size
+        
+        if total_samples == 0:
+            return float('inf'), float('inf'), float('inf')
+            
+        avg_loss = total_loss / total_samples
+        avg_ade = total_ade / total_samples
+        avg_fde = total_fde / total_samples
+        
+        return avg_loss, avg_ade, avg_fde
+    
+    def evaluate_all_clients_local_validation(self, model: DO_TP) -> Dict[str, Tuple[float, float, float]]:
+        """Evaluate the global model on all clients' local validation data."""
+        client_metrics = {}
+        
+        for client_name in self.client_loaders.keys():
+            val_loss, val_ade, val_fde = self.evaluate_client_local_validation(model, client_name)
+            client_metrics[client_name] = (val_loss, val_ade, val_fde)
+            logger.info(f"Client {client_name} local validation - Loss: {val_loss:.4f}, ADE: {val_ade:.4f}, FDE: {val_fde:.4f}")
+        
+        return client_metrics
+    
     def train_federated(self, save_checkpoints: bool = True) -> TrainingMetrics:
         """Main federated training loop."""
         global_model = self.create_global_model()
         metrics = TrainingMetrics()
+        
+        # Add lists to track per-client metrics
+        metrics.client_val_losses = {client: [] for client in self.client_loaders.keys()}
+        metrics.client_val_ades = {client: [] for client in self.client_loaders.keys()}
+        metrics.client_val_fdes = {client: [] for client in self.client_loaders.keys()}
         
         logger.info(f"Starting federated training for {self.config.federated.global_rounds} rounds")
         
@@ -197,23 +260,51 @@ class FederatedTrainer:
             aggregated_weights = self.aggregate_weights(local_weights, global_model)
             global_model.load_state_dict(aggregated_weights)
             
-            # Evaluate global model
-            val_loss, val_ade, val_fde = self.evaluate_global_model(global_model)
-            metrics.add_val_metrics(val_loss, val_ade, val_fde)
+            # Evaluate global model on each client's local validation data
+            logger.info("Evaluating global model on client local validation data...")
+            client_metrics = self.evaluate_all_clients_local_validation(global_model)
+            
+            # Calculate weighted average metrics across all clients
+            total_weighted_loss = 0.0
+            total_weighted_ade = 0.0
+            total_weighted_fde = 0.0
+            total_weight = 0.0
+            
+            for client_name, (val_loss, val_ade, val_fde) in client_metrics.items():
+                weight = self.client_weights[client_name]
+                total_weighted_loss += val_loss * weight
+                total_weighted_ade += val_ade * weight
+                total_weighted_fde += val_fde * weight
+                total_weight += weight
+                
+                # Store per-client metrics
+                metrics.client_val_losses[client_name].append(val_loss)
+                metrics.client_val_ades[client_name].append(val_ade)
+                metrics.client_val_fdes[client_name].append(val_fde)
+            
+            # Calculate global weighted averages
+            global_val_loss = total_weighted_loss / total_weight if total_weight > 0 else float('inf')
+            global_val_ade = total_weighted_ade / total_weight if total_weight > 0 else float('inf')
+            global_val_fde = total_weighted_fde / total_weight if total_weight > 0 else float('inf')
+            
+            # Store global metrics (weighted average of all clients)
+            metrics.add_val_metrics(global_val_loss, global_val_ade, global_val_fde)
             
             logger.info(
-                f"Round {round_num + 1} - Val Loss: {val_loss:.4f}, "
-                f"ADE: {val_ade:.4f}, FDE: {val_fde:.4f}"
+                f"Round {round_num + 1} - Global Weighted Avg: Loss: {global_val_loss:.4f}, "
+                f"ADE: {global_val_ade:.4f}, FDE: {global_val_fde:.4f}"
             )
             
             # Save checkpoint
             if save_checkpoints:
-                checkpoint_path = f"{self.config.output.checkpoint_name}_federated_round_{round_num + 1}.pt"
+                models_dir = getattr(self.config, 'models_dir', os.path.join(self.config.output.output_dir, 'models'))
+                checkpoint_path = os.path.join(models_dir, f"{self.config.output.checkpoint_name}_federated_round_{round_num + 1}.pt")
                 torch.save(global_model.state_dict(), checkpoint_path)
                 logger.info(f"Saved checkpoint: {checkpoint_path}")
         
         # Save final model
-        final_path = f"{self.config.output.checkpoint_name}_federated_final.pt"
+        models_dir = getattr(self.config, 'models_dir', os.path.join(self.config.output.output_dir, 'models'))
+        final_path = os.path.join(models_dir, f"{self.config.output.checkpoint_name}_federated_final.pt")
         torch.save(global_model.state_dict(), final_path)
         logger.info(f"Final federated model saved: {final_path}")
         
@@ -230,6 +321,10 @@ class FederatedTrainer:
         }
         return stats
 
-def create_federated_trainer(config, client_loaders: Dict[str, Tuple[any, DataLoader]], val_loader: DataLoader) -> FederatedTrainer:
+def create_federated_trainer(
+    config, 
+    client_loaders: Dict[str, Tuple[any, DataLoader]], 
+    client_val_loaders: Dict[str, Tuple[any, DataLoader]]
+) -> FederatedTrainer:
     """Factory function to create federated trainer."""
-    return FederatedTrainer(config, client_loaders, val_loader)
+    return FederatedTrainer(config, client_loaders, client_val_loaders)

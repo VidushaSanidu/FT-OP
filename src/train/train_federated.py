@@ -18,14 +18,52 @@ from core.data_manager import create_data_manager
 from core.federated import create_federated_trainer
 from core.evaluation import create_evaluator
 
+def cleanup_old_files():
+    """Clean up scattered files from previous runs."""
+    import shutil
+    src_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    # Remove any .pt files in src directory
+    for file in os.listdir(src_dir):
+        if file.endswith('.pt') or file.endswith('_config.json') or file.endswith('_metrics.json'):
+            file_path = os.path.join(src_dir, file)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+                print(f"Cleaned up: {file_path}")
+    
+    # Remove logs directory from src if it exists
+    logs_dir = os.path.join(src_dir, 'logs')
+    if os.path.exists(logs_dir):
+        shutil.rmtree(logs_dir)
+        print(f"Cleaned up: {logs_dir}")
+
+def setup_experiment_directory(config):
+    """Set up the experiment directory structure."""
+    output_dir = config.output.output_dir
+    
+    # Create main output directory
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Create subdirectories for organization
+    subdirs = ['logs', 'models', 'plots', 'configs']
+    for subdir in subdirs:
+        os.makedirs(os.path.join(output_dir, subdir), exist_ok=True)
+    
+    # Update config paths to use the organized structure
+    config.logs_dir = os.path.join(output_dir, 'logs')
+    config.models_dir = os.path.join(output_dir, 'models')
+    config.plots_dir = os.path.join(output_dir, 'plots')
+    config.configs_dir = os.path.join(output_dir, 'configs')
+    
+    return config
+
 def setup_logging(config):
     """Setup logging configuration."""
     log_format = '[%(asctime)s] [%(levelname)s] %(name)s: %(message)s'
     log_level = getattr(logging, config.output.log_level.upper())
     
-    # Create logs directory
-    logs_dir = os.path.join(config.output.output_dir, 'logs')
-    os.makedirs(logs_dir, exist_ok=True)
+    # Use the organized logs directory
+    logs_dir = getattr(config, 'logs_dir', os.path.join(config.output.output_dir, 'logs'))
     
     # Setup file and console logging
     logging.basicConfig(
@@ -45,8 +83,6 @@ def parse_arguments():
     parser.add_argument('--client_datasets', nargs='+', 
                        default=['eth', 'hotel', 'zara1', 'zara2', 'univ'],
                        help='List of datasets to use as federated clients')
-    parser.add_argument('--validation_dataset', default='zara1',
-                       help='Dataset to use for validation')
     
     # Federated learning arguments
     parser.add_argument('--global_rounds', type=int, default=10,
@@ -87,6 +123,10 @@ def parse_arguments():
     parser.add_argument('--gpu_num', default='0',
                        help='GPU number to use')
     
+    # Utility arguments
+    parser.add_argument('--cleanup', action='store_true',
+                       help='Clean up scattered files from previous runs before starting')
+    
     return parser.parse_args()
 
 def create_config_from_args(args):
@@ -95,7 +135,6 @@ def create_config_from_args(args):
     
     # Update config with command line arguments
     config.train_datasets = args.client_datasets
-    config.validation_dataset = args.validation_dataset
     config.experiment_name = args.experiment_name
     
     # Federated config
@@ -117,8 +156,13 @@ def create_config_from_args(args):
     config.model.dest_dim = args.dest_dim
     config.model.kl_beta = args.kl_beta
     
-    # Output config
-    config.output.output_dir = args.output_dir
+    # Output config - only update if args.output_dir is not empty
+    if args.output_dir and args.output_dir.strip():
+        config.output.output_dir = args.output_dir
+    else:
+        # Ensure we have a proper timestamp subdirectory for this run
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        config.output.output_dir = os.path.join(config.output.output_dir, timestamp)
     config.output.checkpoint_name = args.checkpoint_name
     
     return config
@@ -127,7 +171,17 @@ def main():
     """Main federated training function."""
     # Parse arguments and create config
     args = parse_arguments()
+    
+    # Clean up old files if requested
+    if args.cleanup:
+        print("Cleaning up scattered files from previous runs...")
+        cleanup_old_files()
+        print("Cleanup completed.")
+    
     config = create_config_from_args(args)
+    
+    # Setup organized directory structure
+    config = setup_experiment_directory(config)
     
     # Setup logging
     setup_logging(config)
@@ -159,16 +213,17 @@ def main():
         # Create data loaders for federated learning
         logger.info("Creating federated client data loaders...")
         client_loaders = data_manager.get_federated_client_loaders()
-        val_dataset, val_loader = data_manager.get_validation_loader()
+        client_val_loaders = data_manager.get_federated_client_validation_loaders()
         
         logger.info(f"Created {len(client_loaders)} federated clients")
         for client_name, (dset, loader) in client_loaders.items():
-            logger.info(f"  Client {client_name}: {len(dset)} samples")
-        logger.info(f"Validation samples: {len(val_dataset)}")
+            val_dset, _ = client_val_loaders.get(client_name, (None, None))
+            val_size = len(val_dset) if val_dset else 0
+            logger.info(f"  Client {client_name}: {len(dset)} train samples, {val_size} validation samples")
         
         # Create federated trainer
         logger.info("Creating federated trainer...")
-        federated_trainer = create_federated_trainer(config, client_loaders, val_loader)
+        federated_trainer = create_federated_trainer(config, client_loaders, client_val_loaders)
         
         # Print client statistics
         client_stats = federated_trainer.get_client_statistics()
@@ -180,7 +235,8 @@ def main():
             logger.info(f"    {client}: {weight:.4f}")
         
         # Save configuration
-        config_path = os.path.join(config.output.output_dir, f'{config.experiment_name}_config.json')
+        configs_dir = getattr(config, 'configs_dir', os.path.join(config.output.output_dir, 'configs'))
+        config_path = os.path.join(configs_dir, f'{config.experiment_name}_config.json')
         with open(config_path, 'w') as f:
             json.dump(config.to_dict(), f, indent=2)
         logger.info(f"Configuration saved to {config_path}")
@@ -212,42 +268,103 @@ def main():
             if metrics.val_losses:
                 import matplotlib.pyplot as plt
                 
-                # Validation metrics over rounds
+                # Use organized plots directory
+                plots_dir = getattr(config, 'plots_dir', os.path.join(config.output.output_dir, 'plots'))
+                
+                # Global validation metrics over rounds
                 plt.figure(figsize=(15, 5))
                 
                 plt.subplot(1, 3, 1)
-                plt.plot(range(1, len(metrics.val_losses) + 1), metrics.val_losses, 'b-o')
-                plt.title('Validation Loss')
+                plt.plot(range(1, len(metrics.val_losses) + 1), metrics.val_losses, 'b-o', label='Global Weighted Avg')
+                plt.title('Global Validation Loss')
                 plt.xlabel('Global Round')
                 plt.ylabel('Loss')
                 plt.grid(True, alpha=0.3)
+                plt.legend()
                 
                 if metrics.val_ades:
                     plt.subplot(1, 3, 2)
-                    plt.plot(range(1, len(metrics.val_ades) + 1), metrics.val_ades, 'r-o')
-                    plt.title('Average Displacement Error (ADE)')
+                    plt.plot(range(1, len(metrics.val_ades) + 1), metrics.val_ades, 'r-o', label='Global Weighted Avg')
+                    plt.title('Global Average Displacement Error (ADE)')
                     plt.xlabel('Global Round')
                     plt.ylabel('ADE')
                     plt.grid(True, alpha=0.3)
+                    plt.legend()
                 
                 if metrics.val_fdes:
                     plt.subplot(1, 3, 3)
-                    plt.plot(range(1, len(metrics.val_fdes) + 1), metrics.val_fdes, 'g-o')
-                    plt.title('Final Displacement Error (FDE)')
+                    plt.plot(range(1, len(metrics.val_fdes) + 1), metrics.val_fdes, 'g-o', label='Global Weighted Avg')
+                    plt.title('Global Final Displacement Error (FDE)')
                     plt.xlabel('Global Round')
                     plt.ylabel('FDE')
                     plt.grid(True, alpha=0.3)
+                    plt.legend()
                 
-                plt.suptitle(f'{config.experiment_name} - Federated Training Progress')
+                plt.suptitle(f'{config.experiment_name} - Global Federated Training Progress')
                 plt.tight_layout()
-                plt.savefig(os.path.join(config.output.output_dir, f'{config.experiment_name}_progress.png'), 
+                plt.savefig(os.path.join(plots_dir, f'{config.experiment_name}_global_progress.png'), 
                            dpi=300, bbox_inches='tight')
                 plt.close()
+                
+                # Per-client validation metrics
+                if hasattr(metrics, 'client_val_losses') and metrics.client_val_losses:
+                    colors = ['r', 'b', 'g', 'orange', 'purple', 'brown', 'pink', 'gray']
+                    markers = ['o', 's', '^', 'v', 'D', 'P', '*', 'h']
+                    
+                    # Client validation losses
+                    plt.figure(figsize=(15, 5))
+                    
+                    plt.subplot(1, 3, 1)
+                    for i, (client_name, losses) in enumerate(metrics.client_val_losses.items()):
+                        if losses:
+                            color = colors[i % len(colors)]
+                            marker = markers[i % len(markers)]
+                            plt.plot(range(1, len(losses) + 1), losses, 
+                                   color=color, marker=marker, linestyle='-', label=client_name)
+                    plt.title('Per-Client Validation Loss')
+                    plt.xlabel('Global Round')
+                    plt.ylabel('Loss')
+                    plt.grid(True, alpha=0.3)
+                    plt.legend()
+                    
+                    plt.subplot(1, 3, 2)
+                    for i, (client_name, ades) in enumerate(metrics.client_val_ades.items()):
+                        if ades:
+                            color = colors[i % len(colors)]
+                            marker = markers[i % len(markers)]
+                            plt.plot(range(1, len(ades) + 1), ades, 
+                                   color=color, marker=marker, linestyle='-', label=client_name)
+                    plt.title('Per-Client ADE')
+                    plt.xlabel('Global Round')
+                    plt.ylabel('ADE')
+                    plt.grid(True, alpha=0.3)
+                    plt.legend()
+                    
+                    plt.subplot(1, 3, 3)
+                    for i, (client_name, fdes) in enumerate(metrics.client_val_fdes.items()):
+                        if fdes:
+                            color = colors[i % len(colors)]
+                            marker = markers[i % len(markers)]
+                            plt.plot(range(1, len(fdes) + 1), fdes, 
+                                   color=color, marker=marker, linestyle='-', label=client_name)
+                    plt.title('Per-Client FDE')
+                    plt.xlabel('Global Round')
+                    plt.ylabel('FDE')
+                    plt.grid(True, alpha=0.3)
+                    plt.legend()
+                    
+                    plt.suptitle(f'{config.experiment_name} - Per-Client Validation Progress')
+                    plt.tight_layout()
+                    plt.savefig(os.path.join(plots_dir, f'{config.experiment_name}_per_client_progress.png'), 
+                               dpi=300, bbox_inches='tight')
+                    plt.close()
+                
                 logger.info("Federated training progress plots saved")
         
         # Save metrics
         import numpy as np
-        metrics_path = os.path.join(config.output.output_dir, f'{config.experiment_name}_metrics.json')
+        configs_dir = getattr(config, 'configs_dir', os.path.join(config.output.output_dir, 'configs'))
+        metrics_path = os.path.join(configs_dir, f'{config.experiment_name}_metrics.json')
         
         def convert_to_serializable(obj):
             """Convert numpy types to Python native types for JSON serialization."""
