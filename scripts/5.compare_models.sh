@@ -7,8 +7,8 @@ echo "Comparing Centralized vs Federated Models"
 echo "========================================"
 
 # Default parameters
-CENTRALIZED_MODEL="../src/results/centralized/do_tp_centralized_best.pt"
-FEDERATED_MODEL="../src/do_tp_federated_federated_final.pt"
+CENTRALIZED_MODEL="../results/centralized/20250726_210927/models/do_tp_centralized_best.pt"
+FEDERATED_MODEL="../results/federated/20250727_113107/models/do_tp_federated_federated_final.pt"
 TEST_DATASETS="eth hotel zara1 zara2 univ"
 VALIDATION_DATASET="zara1"
 OUTPUT_DIR="./results/comparison"
@@ -61,31 +61,35 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Check if model files exist (relative to src directory where the script will run)
+# Check if model files exist (relative to script directory)
 SCRIPT_DIR="$(dirname "$0")"
-SRC_DIR="$SCRIPT_DIR/../src"
+ROOT_DIR="$SCRIPT_DIR/.."
 
-# Convert paths to be relative to src directory
-if [[ "$CENTRALIZED_MODEL" =~ ^\.\./src/ ]]; then
-    CENTRALIZED_CHECK="${CENTRALIZED_MODEL#../src/}"
+# Convert paths to be relative to script directory
+if [[ "$CENTRALIZED_MODEL" =~ ^\.\./results/ ]]; then
+    CENTRALIZED_CHECK="$ROOT_DIR/${CENTRALIZED_MODEL#../}"
+elif [[ "$CENTRALIZED_MODEL" =~ ^\.\./src/ ]]; then
+    CENTRALIZED_CHECK="$ROOT_DIR/src/${CENTRALIZED_MODEL#../src/}"
 else
-    CENTRALIZED_CHECK="$CENTRALIZED_MODEL"
+    CENTRALIZED_CHECK="$ROOT_DIR/$CENTRALIZED_MODEL"
 fi
 
-if [[ "$FEDERATED_MODEL" =~ ^\.\./src/ ]]; then
-    FEDERATED_CHECK="${FEDERATED_MODEL#../src/}"
+if [[ "$FEDERATED_MODEL" =~ ^\.\./results/ ]]; then
+    FEDERATED_CHECK="$ROOT_DIR/${FEDERATED_MODEL#../}"
+elif [[ "$FEDERATED_MODEL" =~ ^\.\./src/ ]]; then
+    FEDERATED_CHECK="$ROOT_DIR/src/${FEDERATED_MODEL#../src/}"
 else
-    FEDERATED_CHECK="$FEDERATED_MODEL"
+    FEDERATED_CHECK="$ROOT_DIR/$FEDERATED_MODEL"
 fi
 
-if [ ! -f "$SRC_DIR/$CENTRALIZED_CHECK" ]; then
-    echo "Error: Centralized model not found: $SRC_DIR/$CENTRALIZED_CHECK"
+if [ ! -f "$CENTRALIZED_CHECK" ]; then
+    echo "Error: Centralized model not found: $CENTRALIZED_CHECK"
     echo "Please run centralized training first or specify correct path."
     exit 1
 fi
 
-if [ ! -f "$SRC_DIR/$FEDERATED_CHECK" ]; then
-    echo "Error: Federated model not found: $SRC_DIR/$FEDERATED_CHECK"
+if [ ! -f "$FEDERATED_CHECK" ]; then
+    echo "Error: Federated model not found: $FEDERATED_CHECK"
     echo "Please run federated training first or specify correct path."
     exit 1
 fi
@@ -98,6 +102,9 @@ fi
 # Create output directory
 mkdir -p "$OUTPUT_DIR"
 
+# Get absolute path
+OUTPUT_DIR_ABS="$(realpath "$OUTPUT_DIR")"
+
 # Change to src directory (from scripts/ to src/)
 cd "$(dirname "$0")/../src"
 
@@ -106,7 +113,7 @@ echo "  Centralized model: $CENTRALIZED_MODEL"
 echo "  Federated model: $FEDERATED_MODEL"
 echo "  Test datasets: $TEST_DATASETS"
 echo "  Validation dataset: $VALIDATION_DATASET"
-echo "  Output directory: $OUTPUT_DIR"
+echo "  Output directory: $OUTPUT_DIR_ABS"
 echo "  Experiment name: $EXPERIMENT_NAME"
 echo ""
 
@@ -117,12 +124,12 @@ if [ -f "../.venv/bin/activate" ]; then
 fi
 
 # Run comparison
-python compare_models.py \
+python train/compare_models.py \
     --centralized_model "$CENTRALIZED_MODEL" \
     --federated_model "$FEDERATED_MODEL" \
     --test_datasets $TEST_DATASETS \
     --validation_dataset "$VALIDATION_DATASET" \
-    --output_dir "$(realpath "$OUTPUT_DIR")" \
+    --output_dir "$OUTPUT_DIR_ABS" \
     --experiment_name "$EXPERIMENT_NAME" \
     --save_plots \
     --detailed_analysis \
@@ -130,4 +137,4 @@ python compare_models.py \
 
 echo ""
 echo "Model comparison completed!"
-echo "Results saved to: $OUTPUT_DIR"
+echo "Results saved to: $OUTPUT_DIR_ABS"

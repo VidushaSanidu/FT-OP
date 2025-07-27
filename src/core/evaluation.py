@@ -12,6 +12,7 @@ import torch
 from torch.utils.data import DataLoader
 
 from core.training import TrainingMetrics, evaluate_model, load_model, create_model
+from core.config import ExperimentConfig
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,43 @@ class ModelEvaluator:
         self.config = config
         self.device = torch.device('cuda' if config.training.use_gpu and torch.cuda.is_available() else 'cpu')
     
+    def _load_model_config(self, model_path: str) -> ExperimentConfig:
+        """Load the configuration used to train a specific model."""
+        # Extract the directory structure to find config file
+        model_dir = os.path.dirname(model_path)
+        
+        # Look for config files in the model directory's parent configs folder
+        configs_dir = os.path.join(os.path.dirname(model_dir), 'configs')
+        
+        config_file = None
+        if os.path.exists(configs_dir):
+            # Look for training config files
+            for config_name in ['centralized_training_config.json', 'federated_training_config.json']:
+                config_path = os.path.join(configs_dir, config_name)
+                if os.path.exists(config_path):
+                    config_file = config_path
+                    break
+        
+        if config_file:
+            # Load config from JSON
+            with open(config_file, 'r') as f:
+                config_dict = json.load(f)
+            
+            # Create ExperimentConfig from the loaded dict
+            config = ExperimentConfig()
+            config.model.obs_len = config_dict['model']['obs_len']
+            config.model.pred_len = config_dict['model']['pred_len']
+            config.model.input_dim = config_dict['model']['input_dim']
+            config.model.enc_hidden_dim = config_dict['model']['enc_hidden_dim']
+            config.model.dest_dim = config_dict['model']['dest_dim']
+            config.model.kl_beta = config_dict['model']['kl_beta']
+            
+            return config
+        else:
+            # Fallback to default config if no saved config found
+            logger.warning(f"No config file found for model {model_path}, using default config")
+            return self.config
+    
     def evaluate_single_model(
         self, 
         model_path: str, 
@@ -29,8 +67,11 @@ class ModelEvaluator:
         model_name: str = "model"
     ) -> Dict[str, Dict[str, float]]:
         """Evaluate a single model on multiple test datasets."""
-        # Load model
-        model = create_model(self.config)
+        # Load the correct configuration for this model
+        model_config = self._load_model_config(model_path)
+        
+        # Load model with correct architecture
+        model = create_model(model_config)
         model = load_model(model, model_path, self.device)
         
         results = {}

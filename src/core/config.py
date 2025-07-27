@@ -55,6 +55,7 @@ class OutputConfig:
     log_level: str = "INFO"
 
 @dataclass
+@dataclass
 class ExperimentConfig:
     """Main configuration class combining all configs."""
     model: ModelConfig = field(default_factory=ModelConfig)
