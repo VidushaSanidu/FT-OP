@@ -66,9 +66,6 @@ else
 fi
 
 
-echo "5. Creating necessary directories..."
-mkdir -p logs
-
 echo ""
 echo "✓ Setup and validation completed successfully!"
 echo ""

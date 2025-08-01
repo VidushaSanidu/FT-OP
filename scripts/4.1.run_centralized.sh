@@ -8,10 +8,10 @@ echo "============================================"
 
 # Parameters
 TRAIN_DATASETS="eth hotel zara1 zara2 univ"
-VALIDATION_DATASET="zara1"
-NUM_EPOCHS=50
+VALIDATION_DATASET="zara2"
+NUM_EPOCHS=100
 BATCH_SIZE=32
-LEARNING_RATE=0.001
+LEARNING_RATE=0.0001
 OUTPUT_DIR="./results/centralized"
 EXPERIMENT_NAME="centralized_training"
 
