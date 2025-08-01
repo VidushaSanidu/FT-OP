@@ -110,7 +110,8 @@ echo "===================================="
     --validation_dataset "$VALIDATION_DATASET" \
     --global_rounds "$FEDERATED_ROUNDS" \
     --output_dir "$FEDERATED_DIR" \
-    --experiment_name "federated_training_$EXPERIMENT_TIMESTAMP"
+    --experiment_name "federated_training_$EXPERIMENT_TIMESTAMP" \
+    --no_timestamp
 
 if [ $? -ne 0 ]; then
     echo "Error: Federated training failed!"
@@ -120,13 +121,21 @@ fi
 echo ""
 echo "Step 3/3: Running Model Comparison"
 echo "=================================="
-"$SCRIPT_DIR/compare_models.sh" \
+
+# Change to src directory for comparison
+cd "$PROJECT_ROOT/src"
+
+# Run comparison directly using Python
+python train/compare_models.py \
     --centralized_model "$CENTRALIZED_DIR/do_tp_centralized_best.pt" \
     --federated_model "$FEDERATED_DIR/do_tp_federated_final.pt" \
-    --test_datasets "$TRAIN_DATASETS" \
+    --test_datasets $TRAIN_DATASETS \
     --validation_dataset "$VALIDATION_DATASET" \
     --output_dir "$COMPARISON_DIR" \
-    --experiment_name "comparison_$EXPERIMENT_TIMESTAMP"
+    --experiment_name "comparison_$EXPERIMENT_TIMESTAMP" \
+    --save_plots \
+    --detailed_analysis \
+    --use_gpu
 
 if [ $? -ne 0 ]; then
     echo "Error: Model comparison failed!"

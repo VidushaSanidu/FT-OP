@@ -83,6 +83,8 @@ def parse_arguments():
     parser.add_argument('--client_datasets', nargs='+', 
                        default=['eth', 'hotel', 'zara1', 'zara2', 'univ'],
                        help='List of datasets to use as federated clients')
+    parser.add_argument('--validation_dataset', default='zara1',
+                       help='Dataset to use for validation')
     
     # Federated learning arguments
     parser.add_argument('--global_rounds', type=int, default=10,
@@ -135,6 +137,7 @@ def create_config_from_args(args):
     
     # Update config with command line arguments
     config.train_datasets = args.client_datasets
+    config.validation_dataset = args.validation_dataset
     config.experiment_name = args.experiment_name
     
     # Federated config
