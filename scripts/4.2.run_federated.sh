@@ -10,10 +10,10 @@ echo "==========================================="
 CLIENT_DATASETS="eth hotel zara1 zara2 univ"
 VALIDATION_DATASET="zara1"
 GLOBAL_ROUNDS=10
-LOCAL_EPOCHS=7
+LOCAL_EPOCHS=20
 CLIENTS_PER_ROUND=5
 BATCH_SIZE=16
-LEARNING_RATE=0.001
+LEARNING_RATE=0.0001
 OUTPUT_DIR="./results/federated"
 EXPERIMENT_NAME="federated_training"
 AGGREGATION_METHOD="weighted_avg"
