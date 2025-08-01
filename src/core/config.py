@@ -13,8 +13,8 @@ class ModelConfig:
     obs_len: int = 8
     pred_len: int = 12
     input_dim: int = 2
-    enc_hidden_dim: int = 128  # Increased from 32 to match centralized
-    dest_dim: int = 256        # Increased from 32 to match centralized
+    enc_hidden_dim: int = 32   # 32-dimensional hidden states as per paper
+    dest_dim: int = 32         # 32-dimensional destination-aware latent vectors
     kl_beta: float = 0.1
 
 @dataclass

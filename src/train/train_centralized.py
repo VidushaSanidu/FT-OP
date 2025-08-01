@@ -95,9 +95,9 @@ def parse_arguments():
                        help='Learning rate')
     
     # Model arguments
-    parser.add_argument('--enc_hidden_dim', type=int, default=128,
+    parser.add_argument('--enc_hidden_dim', type=int, default=32,
                        help='Encoder hidden dimension')
-    parser.add_argument('--dest_dim', type=int, default=256,
+    parser.add_argument('--dest_dim', type=int, default=32,
                        help='Destination embedding dimension')
     parser.add_argument('--kl_beta', type=float, default=0.1,
                        help='KL divergence beta weight')
